@@ -16,7 +16,23 @@ namespace FinMgr {
         void draw();
 
     private:
+
+        void drawMain();
+
+        void drawStatistics();
+
+        void drawDetail();
+
+        void drawIncomeDetail();
+
+        void drawIncomeTable(const std::string& name, Wage& wage);
+
+        void drawIncomeTableTotalRow(double check, double extra, double total, const ImVec4& color);
+
+    private:
         App::AppData& m_AppData;
         Store& m_Store;
+
+        int m_SelectedItemType = -1;
     };
 }

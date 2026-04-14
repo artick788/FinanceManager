@@ -34,4 +34,6 @@ namespace FinMgr {
         VL_GENERATE_JSON_SERIALIZER(Date, day, month, year)
     };
 
+    Date getCurrentDate();
+
 }

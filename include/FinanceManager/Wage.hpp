@@ -24,7 +24,7 @@ namespace FinMgr {
 
         const std::string& getName() const;
 
-        const std::vector<WageEntry>& getEntries() const;
+        std::vector<WageEntry>& getEntries();
 
         VL_GENERATE_JSON_SERIALIZER(Wage, m_Name, m_Entries);
 
@@ -45,7 +45,7 @@ namespace FinMgr {
 
         Wage& getWage(const std::string& name);
 
-        const std::unordered_map<std::string, Wage>& getWages() const;
+        std::unordered_map<std::string, Wage>& getWages();
 
         bool hasWage(const std::string& name) const;
 

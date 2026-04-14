@@ -28,8 +28,12 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/Store.hpp
     src/FinanceManagerApp/ConfigureFinanceLayout.hpp
     src/FinanceManagerApp/OverviewLayout.hpp
+    src/FinanceManagerApp/Utils.hpp
 
     src/FinanceManagerApp/Popups/AddIncomePopup.hpp
+    src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
+
+    src/FinanceManagerApp/Widgets/DateInput.hpp
 )
 
 set(FINANCE_MANAGER_APP_SRC
@@ -39,7 +43,9 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/OverviewLayout.cpp
 
     src/FinanceManagerApp/Popups/AddIncomePopup.cpp
+    src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
 
+    src/FinanceManagerApp/Widgets/DateInput.cpp
 )
 
 add_executable(FinanceManagerApp main.cpp ${FINANCE_MANAGER_APP_SRC} ${FINANCE_MANAGER_APP_HEADERS})

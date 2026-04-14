@@ -81,4 +81,11 @@ namespace FinMgr {
            static_cast<U64>(day);
     }
 
+    Date getCurrentDate() {
+        const auto now = std::chrono::system_clock::now();
+        const std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+        const std::tm* now_tm = std::localtime(&now_c);
+        return Date(now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
+    }
+
 }

@@ -5,12 +5,6 @@
 
 namespace FinMgr {
 
-    static const std::vector<std::string> s_ItemTypes = {
-        "Income",
-        "Savings",
-        "Monthly Expenses"
-    };
-
     ConfigureFinanceLayout::ConfigureFinanceLayout(App::AppData& appData,Store &store):
     m_AppData(appData),
     m_Store(store){

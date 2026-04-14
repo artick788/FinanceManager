@@ -17,7 +17,7 @@ namespace FinMgr {
         return m_Name;
     }
 
-    const std::vector<WageEntry>& Wage::getEntries() const {
+    std::vector<WageEntry>& Wage::getEntries() {
         return m_Entries;
     }
 
@@ -33,7 +33,7 @@ namespace FinMgr {
         return m_Wages.at(name);
     }
 
-    const std::unordered_map<std::string, Wage>& WageManager::getWages() const {
+    std::unordered_map<std::string, Wage>& WageManager::getWages() {
         return m_Wages;
     }
 
