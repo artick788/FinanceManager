@@ -45,6 +45,10 @@ namespace FinMgr {
 
         Wage& getWage(const std::string& name);
 
+        const std::unordered_map<std::string, Wage>& getWages() const;
+
+        bool hasWage(const std::string& name) const;
+
         VL_GENERATE_JSON_SERIALIZER(WageManager, m_Wages);
 
     private:

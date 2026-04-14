@@ -26,11 +26,20 @@ target_include_directories(FinanceManager PUBLIC include)
 set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/FinanceManagerLayer.hpp
     src/FinanceManagerApp/Store.hpp
+    src/FinanceManagerApp/ConfigureFinanceLayout.hpp
+    src/FinanceManagerApp/OverviewLayout.hpp
+
+    src/FinanceManagerApp/Popups/AddIncomePopup.hpp
 )
 
 set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/FinanceManagerLayer.cpp
     src/FinanceManagerApp/Store.cpp
+    src/FinanceManagerApp/ConfigureFinanceLayout.cpp
+    src/FinanceManagerApp/OverviewLayout.cpp
+
+    src/FinanceManagerApp/Popups/AddIncomePopup.cpp
+
 )
 
 add_executable(FinanceManagerApp main.cpp ${FINANCE_MANAGER_APP_SRC} ${FINANCE_MANAGER_APP_HEADERS})

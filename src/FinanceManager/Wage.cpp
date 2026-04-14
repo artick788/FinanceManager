@@ -32,4 +32,12 @@ namespace FinMgr {
     Wage& WageManager::getWage(const std::string &name) {
         return m_Wages.at(name);
     }
+
+    const std::unordered_map<std::string, Wage>& WageManager::getWages() const {
+        return m_Wages;
+    }
+
+    bool WageManager::hasWage(const std::string &name) const {
+        return m_Wages.contains(name);
+    }
 }
