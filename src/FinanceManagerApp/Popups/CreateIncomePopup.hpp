@@ -7,11 +7,11 @@
 
 namespace FinMgr {
 
-    class AddIncomePopup : public App::Widgets::Popup {
+    class CreateIncomePopup : public App::Widgets::Popup {
     public:
-        explicit AddIncomePopup(Store& store);
+        explicit CreateIncomePopup(Store& store);
 
-        ~AddIncomePopup() override = default;
+        ~CreateIncomePopup() override = default;
 
     protected:
 

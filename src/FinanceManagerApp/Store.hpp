@@ -13,9 +13,10 @@ namespace FinMgr {
 
     using namespace Velyra;
 
-    class AddIncomePopup;
+    class CreateIncomePopup;
     class AddPaycheckPopup;
     class CreateSavingsRecordPopup;
+    class AddSavingsEntryPopup;
 
     struct Store {
         WageManager wageManager;
@@ -23,9 +24,10 @@ namespace FinMgr {
 
         AppState state = Overview;
 
-        SP<AddIncomePopup> addIncomePopup;
+        SP<CreateIncomePopup> addIncomePopup;
         SP<AddPaycheckPopup> addPaycheckPopup;
         SP<CreateSavingsRecordPopup> createSavingsRecordPopup;
+        SP<AddSavingsEntryPopup> addSavingsEntryPopup;
 
         // TODO: Would it be handy to also store the app state? It could save on click in the UI?
         VL_GENERATE_JSON_SERIALIZER(Store, wageManager, savingsManager);

@@ -18,7 +18,7 @@ namespace FinMgr {
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorGreen);
         if (ImGui::Button("Add", ImVec2(100.0f, App::Styles::ButtonHeight))) {
             if (!m_RecordName.empty() && !m_Store.savingsManager.hasSavingsRecord(m_RecordName)) {
-                m_Store.savingsManager.createSavingsRecord(m_RecordName, m_InputDefaultTransactionAmount, m_InputInitialAmount);
+                m_Store.savingsManager.createSavingsRecord(m_RecordName, m_InputInitialAmount, m_InputDefaultTransactionAmount);
                 reset();
                 setOpen(false);
             }

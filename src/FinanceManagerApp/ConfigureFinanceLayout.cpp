@@ -1,6 +1,6 @@
 #include "ConfigureFinanceLayout.hpp"
 
-#include "Popups/AddIncomePopup.hpp"
+#include "Popups/CreateIncomePopup.hpp"
 #include "Popups/CreateSavingsRecordPopup.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
@@ -79,7 +79,7 @@ namespace FinMgr {
             return;
         }
         std::string toRemove;
-        if (ImGui::BeginTable("Income", 2)) {
+        if (ImGui::BeginTable("Income", 2, ImGuiTableFlags_Resizable)) {
             ImGui::TableSetupColumn("Name");
             ImGui::TableSetupColumn("Remove");
             ImGui::TableHeadersRow();
@@ -116,23 +116,25 @@ namespace FinMgr {
             return;
         }
         std::string toRemove;
-        if (ImGui::BeginTable("Savings", 5)) {
+        if (ImGui::BeginTable("Savings", 4, ImGuiTableFlags_Resizable)) {
             ImGui::TableSetupColumn("Name");
             ImGui::TableSetupColumn("Initial Amount");
             ImGui::TableSetupColumn("Default Transaction Amount");
             ImGui::TableSetupColumn("Remove");
             ImGui::TableHeadersRow();
 
-            for (const auto &[name, record]: savings) {
+            for (auto &[name, record]: savings) {
                 const std::string buttonLabel = "Remove##" + name;
 
                 ImGui::TableNextRow();
                 ImGui::TableSetColumnIndex(0);
                 ImGui::Text("%s", name.c_str());
                 ImGui::TableSetColumnIndex(1);
-                ImGui::Text("%.2f", record.initialAmount);
+                const std::string editInitialAmountLabel = "EditInitial##" + name;
+                ImGui::InputDouble(editInitialAmountLabel.c_str(), &record.initialAmount);
                 ImGui::TableSetColumnIndex(2);
-                ImGui::Text("%.2f", record.defaultTransactionAmount);
+                const std::string editDefaultTransactionAmountLabel = "EditDefault##" + name;
+                ImGui::InputDouble(editDefaultTransactionAmountLabel.c_str(), &record.defaultTransactionAmount, 0.01, 0.0, "%.2f");
                 ImGui::TableSetColumnIndex(3);
                 ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorRed);
                 if (ImGui::Button(buttonLabel.c_str())) {

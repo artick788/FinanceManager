@@ -31,10 +31,13 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/ConfigureFinanceLayout.hpp
     src/FinanceManagerApp/OverviewLayout.hpp
     src/FinanceManagerApp/Utils.hpp
+    src/FinanceManagerApp/IncomeOverview.hpp
+    src/FinanceManagerApp/SavingsOverview.hpp
 
-    src/FinanceManagerApp/Popups/AddIncomePopup.hpp
+    src/FinanceManagerApp/Popups/CreateIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
     src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.hpp
+    src/FinanceManagerApp/Popups/AddSavingsEntryPopup.hpp
 
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
@@ -44,10 +47,13 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/Store.cpp
     src/FinanceManagerApp/ConfigureFinanceLayout.cpp
     src/FinanceManagerApp/OverviewLayout.cpp
+    src/FinanceManagerApp/IncomeOverview.cpp
+    src/FinanceManagerApp/SavingsOverview.cpp
 
-    src/FinanceManagerApp/Popups/AddIncomePopup.cpp
+    src/FinanceManagerApp/Popups/CreateIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
     src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.cpp
+    src/FinanceManagerApp/Popups/AddSavingsEntryPopup.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )
