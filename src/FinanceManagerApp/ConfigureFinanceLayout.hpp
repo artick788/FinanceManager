@@ -23,6 +23,8 @@ namespace FinMgr {
 
         void drawIncomeDetail();
 
+        void drawSavingsDetail();
+
     private:
         App::AppData& m_AppData;
         Store& m_Store;

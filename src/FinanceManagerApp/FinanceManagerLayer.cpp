@@ -2,6 +2,7 @@
 
 #include "Popups/AddIncomePopup.hpp"
 #include "Popups/AddPaycheckPopup.hpp"
+#include "Popups/CreateSavingsRecordPopup.hpp"
 
 namespace FinMgr {
 
@@ -62,6 +63,8 @@ namespace FinMgr {
         m_AppData.addPopup(m_Store.addIncomePopup);
         m_Store.addPaycheckPopup = createSP<AddPaycheckPopup>(m_Store);
         m_AppData.addPopup(m_Store.addPaycheckPopup);
+        m_Store.createSavingsRecordPopup = createSP<CreateSavingsRecordPopup>(m_Store);
+        m_AppData.addPopup(m_Store.createSavingsRecordPopup);
     }
 
     void FinanceManagerLayer::createPanels() {

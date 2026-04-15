@@ -11,11 +11,13 @@ set(FINANCE_MANAGER_HEADERS
     include/FinanceManager/FinanceManagerInclude.hpp
     include/FinanceManager/Date.hpp
     include/FinanceManager/Wage.hpp
+    include/FinanceManager/Savings.hpp
 )
 
 set(FINANCE_MANAGER_SRC
     src/FinanceManager/Date.cpp
     src/FinanceManager/Wage.cpp
+    src/FinanceManager/Savings.cpp
 )
 
 add_library(FinanceManager STATIC ${FINANCE_MANAGER_SRC} ${FINANCE_MANAGER_HEADERS})
@@ -32,6 +34,7 @@ set(FINANCE_MANAGER_APP_HEADERS
 
     src/FinanceManagerApp/Popups/AddIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
+    src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.hpp
 
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
@@ -44,6 +47,7 @@ set(FINANCE_MANAGER_APP_SRC
 
     src/FinanceManagerApp/Popups/AddIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
+    src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )

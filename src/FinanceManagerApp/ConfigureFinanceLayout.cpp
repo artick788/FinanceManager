@@ -1,6 +1,8 @@
 #include "ConfigureFinanceLayout.hpp"
 
 #include "Popups/AddIncomePopup.hpp"
+#include "Popups/CreateSavingsRecordPopup.hpp"
+
 #include <VelyraAppFramework/Styles.hpp>
 
 namespace FinMgr {
@@ -53,7 +55,7 @@ namespace FinMgr {
                 drawIncomeDetail();
                 break;
             case 1:
-                // drawSavingsDetail();
+                drawSavingsDetail();
                 break;
             case 2:
                 // drawMonthlyExpensesDetail();
@@ -99,6 +101,49 @@ namespace FinMgr {
         }
         if (!toRemove.empty()) {
             m_Store.wageManager.destroyWage(toRemove);
+        }
+    }
+
+    void ConfigureFinanceLayout::drawSavingsDetail() {
+        ImGui::Text("Savings");
+        if (ImGui::Button("Add Savings Record")) {
+            m_Store.createSavingsRecordPopup->setOpen(true);
+        }
+        ImGui::Separator();
+        auto& savings = m_Store.savingsManager.getSavingsRecords();
+        if (savings.empty()) {
+            ImGui::Text("No savings records added yet.");
+            return;
+        }
+        std::string toRemove;
+        if (ImGui::BeginTable("Savings", 5)) {
+            ImGui::TableSetupColumn("Name");
+            ImGui::TableSetupColumn("Initial Amount");
+            ImGui::TableSetupColumn("Default Transaction Amount");
+            ImGui::TableSetupColumn("Remove");
+            ImGui::TableHeadersRow();
+
+            for (const auto &[name, record]: savings) {
+                const std::string buttonLabel = "Remove##" + name;
+
+                ImGui::TableNextRow();
+                ImGui::TableSetColumnIndex(0);
+                ImGui::Text("%s", name.c_str());
+                ImGui::TableSetColumnIndex(1);
+                ImGui::Text("%.2f", record.initialAmount);
+                ImGui::TableSetColumnIndex(2);
+                ImGui::Text("%.2f", record.defaultTransactionAmount);
+                ImGui::TableSetColumnIndex(3);
+                ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorRed);
+                if (ImGui::Button(buttonLabel.c_str())) {
+                    toRemove = name;
+                }
+                ImGui::PopStyleColor();
+            }
+            ImGui::EndTable();
+        }
+        if (!toRemove.empty()) {
+            m_Store.savingsManager.destroySavingsRecord(toRemove);
         }
     }
 }
