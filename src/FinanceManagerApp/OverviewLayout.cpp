@@ -74,7 +74,7 @@ namespace FinMgr {
         }
     }
 
-    void OverviewLayout::drawIncomeStatistics() {
+    void OverviewLayout::drawIncomeStatistics() const {
         const Date now = getCurrentDate();
         WageStatistics totalStats = m_Store.wageManager.calculateStatistics(Date{1, 1, 1}, now);
         const Date thisYearStart{1, 1, now.year}; 

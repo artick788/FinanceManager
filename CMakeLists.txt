@@ -53,6 +53,7 @@ target_link_libraries(FinanceManagerApp PUBLIC FinanceManager VelyraAppFramework
 
 set(FINANCE_MANAGER_TEST_SRC
     test/TestDate.cpp
+    test/TestWage.cpp
 )
 
 if (BUILD_TESTING)
