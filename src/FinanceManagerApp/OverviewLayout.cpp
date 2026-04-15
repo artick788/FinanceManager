@@ -60,7 +60,7 @@ namespace FinMgr {
     void OverviewLayout::drawStatistics() {
         switch (m_SelectedItemType) {
             case 0:
-                ImGui::Text("Income statistics will be displayed here.");
+                drawIncomeStatistics();
                 break;
             case 1:
                 ImGui::Text("Savings statistics will be displayed here.");
@@ -72,6 +72,19 @@ namespace FinMgr {
                 ImGui::Text("Select an item type to view statistics.");
                 break;
         }
+    }
+
+    void OverviewLayout::drawIncomeStatistics() {
+        const Date now = getCurrentDate();
+        WageStatistics totalStats = m_Store.wageManager.calculateStatistics(Date{1, 1, 1}, now);
+        const Date thisYearStart{1, 1, now.year}; 
+        WageStatistics thisYearStats = m_Store.wageManager.calculateStatistics(thisYearStart, now);
+        const Date thisMonthStart{1, now.month, now.year}; 
+        WageStatistics thisMonthStats = m_Store.wageManager.calculateStatistics(thisMonthStart, now);
+
+        ImGui::TextWrapped("Total Income: %.2f", totalStats.totalAmount);
+        ImGui::TextWrapped("This Year: %.2f", thisYearStats.totalAmount);
+        ImGui::TextWrapped("This Month: %.2f", thisMonthStats.totalAmount);
     }
 
     void OverviewLayout::drawDetail() {

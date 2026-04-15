@@ -21,6 +21,18 @@ namespace FinMgr {
         return m_Entries;
     }
 
+    WageStatistics Wage::calculateStatistics(const Date& min, const Date& max) const {
+        WageStatistics stats;
+        for (const auto&[date, amount, extra] : m_Entries) {
+            if (date >= min && date <= max) {
+                stats.totalCheck += amount;
+                stats.totalExtra += extra;
+                stats.totalAmount += amount + extra;
+            }
+        }
+        return stats;
+    }
+
     void WageManager::createWage(const std::string &name) {
         m_Wages.emplace(name, Wage(name));
     }
@@ -39,5 +51,16 @@ namespace FinMgr {
 
     bool WageManager::hasWage(const std::string &name) const {
         return m_Wages.contains(name);
+    }
+
+    WageStatistics WageManager::calculateStatistics(const Date &min, const Date &max) const {
+        WageStatistics stats;
+        for (const auto &wage: m_Wages | std::views::values) {
+            auto [totalCheck, totalExtra, totalAmount] = wage.calculateStatistics(min, max);
+            stats.totalCheck += totalCheck;
+            stats.totalExtra += totalExtra;
+            stats.totalAmount += totalAmount;
+        }
+        return stats;
     }
 }

@@ -12,6 +12,12 @@ namespace FinMgr {
         VL_GENERATE_JSON_SERIALIZER(WageEntry, date, amount, extra);
     };
 
+    struct WageStatistics {
+        double totalCheck = 0.0;
+        double totalExtra = 0.0;
+        double totalAmount = 0.0;
+    };
+
     class Wage {
     public:
         Wage() = default;
@@ -25,6 +31,8 @@ namespace FinMgr {
         const std::string& getName() const;
 
         std::vector<WageEntry>& getEntries();
+
+        WageStatistics calculateStatistics(const Date& min, const Date& max) const;
 
         VL_GENERATE_JSON_SERIALIZER(Wage, m_Name, m_Entries);
 
@@ -48,6 +56,8 @@ namespace FinMgr {
         std::unordered_map<std::string, Wage>& getWages();
 
         bool hasWage(const std::string& name) const;
+
+        WageStatistics calculateStatistics(const Date& min, const Date& max) const;
 
         VL_GENERATE_JSON_SERIALIZER(WageManager, m_Wages);
 

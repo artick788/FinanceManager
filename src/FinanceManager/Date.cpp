@@ -28,7 +28,9 @@ namespace FinMgr {
         }
         else {
             // current month is february
-            if (year % 4 == 0) {
+            // Correct leap year calculation: divisible by 4, except century years unless divisible by 400
+            const bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+            if (isLeapYear) {
                 if (day > 29) {
                     day = 1;
                     monthIncrement();
@@ -67,8 +69,16 @@ namespace FinMgr {
         return toInteger() < other.toInteger();
     }
 
+    bool Date::operator>(const Date &other) const {
+        return toInteger() > other.toInteger();
+    }
+
     bool Date::operator<=(const Date &other) const {
         return (*this == other) || (*this < other);
+    }
+
+    bool Date::operator>=(const Date& other) const {
+        return (*this == other) || (*this > other);
     }
 
     std::string Date::toString() const {

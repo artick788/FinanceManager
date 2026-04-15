@@ -50,3 +50,18 @@ set(FINANCE_MANAGER_APP_SRC
 
 add_executable(FinanceManagerApp main.cpp ${FINANCE_MANAGER_APP_SRC} ${FINANCE_MANAGER_APP_HEADERS})
 target_link_libraries(FinanceManagerApp PUBLIC FinanceManager VelyraAppFramework)
+
+set(FINANCE_MANAGER_TEST_SRC
+    test/TestDate.cpp
+)
+
+if (BUILD_TESTING)
+    vl_fetch_gtest()
+
+    add_executable(TestFinanceManager ${FINANCE_MANAGER_TEST_SRC})
+    target_include_directories(TestFinanceManager PUBLIC include)
+    target_link_libraries(TestFinanceManager PUBLIC GTest::gtest GTest::gtest_main FinanceManager)
+    add_test(NAME CTestFinanceManager COMMAND ${PROOT} $<TARGET_FILE:TestFinanceManager>)
+    set_tests_properties(CTestFinanceManager PROPERTIES
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+endif ()

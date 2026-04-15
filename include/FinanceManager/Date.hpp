@@ -25,7 +25,11 @@ namespace FinMgr {
 
         bool operator<(const Date &) const;
 
+        bool operator>(const Date &) const;
+
         bool operator<=(const Date &) const;
+
+        bool operator>=(const Date&) const;
 
         std::string toString() const;
 

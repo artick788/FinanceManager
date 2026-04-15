@@ -21,6 +21,8 @@ namespace FinMgr {
 
         void drawStatistics();
 
+        void drawIncomeStatistics();
+
         void drawDetail();
 
         void drawIncomeDetail();
