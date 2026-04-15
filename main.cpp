@@ -7,7 +7,7 @@ int main(const int argc, const char* argv[]) {
     const App::ProgramArgs args(argv, argv + argc);
     try {
         App::ApplicationDesc desc;
-        desc.applicationName = "Finance Manager";
+        desc.applicationName = "FinanceManager";
         App::Application app(desc, args);
         app.pushLayer<FinanceManagerLayer>();
         app.run();

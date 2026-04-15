@@ -111,8 +111,8 @@ namespace FinMgr {
                 ImGui::TableSetColumnIndex(1); ImGui::Text("%s", getMonthStr(entry.date.month));
                 ImGui::TableSetColumnIndex(2); ImGui::Text("%d", entry.date.day);
 
-                const std::string editCheckLabel = "Edit##" + name + std::to_string(i);
-                const std::string editExtraLabel = "Edit##" + name + std::to_string(i) + "Extra";
+                const std::string editCheckLabel = "##" + name + std::to_string(i);
+                const std::string editExtraLabel = "##" + name + std::to_string(i) + "Extra";
                 ImGui::TableSetColumnIndex(3); ImGui::InputDouble(editCheckLabel.c_str(), &entry.amount, 0.0, 0.0, "%.2f");
                 ImGui::TableSetColumnIndex(4); ImGui::InputDouble(editExtraLabel.c_str(), &entry.extra, 0.0, 0.0, "%.2f");
                 double total = entry.amount + entry.extra;

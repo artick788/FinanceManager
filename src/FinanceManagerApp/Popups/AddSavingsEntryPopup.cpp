@@ -19,11 +19,9 @@ namespace FinMgr {
 
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorGreen);
         if (ImGui::Button("Add", ImVec2(100.0f, App::Styles::ButtonHeight))) {
-            if (m_InputAmount > 0.0) {
-                m_Store.savingsManager.getSavingsRecord(m_SavingsName).addEntry(m_InputDate, m_InputAmount, m_InputCurrentState);
-                reset();
-                setOpen(false);
-            }
+            m_Store.savingsManager.getSavingsRecord(m_SavingsName).addEntry(m_InputDate, m_InputAmount, m_InputCurrentState);
+            reset();
+            setOpen(false);
         }
         ImGui::PopStyleColor();
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorRed);

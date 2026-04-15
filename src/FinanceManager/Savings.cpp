@@ -3,13 +3,17 @@
 namespace FinMgr {
 
     SavingsRecord::SavingsRecord(const std::string &name, const double initialAmount):
-    m_Name(name),
-    initialAmount(initialAmount) {
+    initialAmount(initialAmount),
+    m_Name(name){
 
     }
 
     void SavingsRecord::addEntry(const Date &date, const double expectedTransactionAmount, const double actualState) {
         m_Entries.emplace_back(SavingEntry{date, expectedTransactionAmount, actualState});
+        // Sort entries by date after adding a new one
+        std::ranges::sort(m_Entries, [](const SavingEntry& a, const SavingEntry& b) {
+            return a.date < b.date;
+        });
     }
 
     void SavingsManager::createSavingsRecord(const std::string &name, const double initialAmount, const double defaultTransactionAmount) {

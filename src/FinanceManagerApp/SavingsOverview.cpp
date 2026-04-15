@@ -56,10 +56,11 @@ namespace FinMgr {
             return;
         }
         const std::string tableLabel = "Entries##" + name;
-        if (ImGui::BeginTable(tableLabel.c_str(), 6, ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY)) {
+        if (ImGui::BeginTable(tableLabel.c_str(), 7, ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY)) {
             ImGui::TableSetupColumn(("Year##" + name).c_str());
             ImGui::TableSetupColumn(("Month##" + name).c_str());
             ImGui::TableSetupColumn(("Day##" + name).c_str());
+            ImGui::TableSetupColumn(("Transaction##" + name).c_str());
             ImGui::TableSetupColumn(("Expected##" + name).c_str());
             ImGui::TableSetupColumn(("Actual##" + name).c_str());
             ImGui::TableSetupColumn(("Variance##" + name).c_str());
@@ -74,9 +75,10 @@ namespace FinMgr {
             ImGui::TableSetColumnIndex(0);  ImGui::Text("Start");
             ImGui::TableSetColumnIndex(1);  ImGui::Text("");
             ImGui::TableSetColumnIndex(2);  ImGui::Text("");
-            ImGui::TableSetColumnIndex(3);  ImGui::Text("%.2f", expected);
-            ImGui::TableSetColumnIndex(4);  ImGui::Text("%.2f", record.initialAmount);
-            ImGui::TableSetColumnIndex(5);  ImGui::Text("%.2f", record.initialAmount - expected);
+            ImGui::TableSetColumnIndex(3);  ImGui::Text("");
+            ImGui::TableSetColumnIndex(4);  ImGui::Text("%.2f", expected);
+            ImGui::TableSetColumnIndex(5);  ImGui::Text("%.2f", record.initialAmount);
+            ImGui::TableSetColumnIndex(6);  ImGui::Text("%.2f", record.initialAmount - expected);
 
             bool drawYear = true;
             bool drawMonth = true;
@@ -87,12 +89,14 @@ namespace FinMgr {
                 if (entry.date.year > currentYear) {
                     drawTotalRow(expected, entry.actualState, App::Styles::ColorHighLight);
                     // Draw empty row
-                    tableEmptyRow(6);
+                    tableEmptyRow(7);
 
                     ImGui::TableNextRow(); // Same here, we inserted some extra rows
 
                     currentYear = entry.date.year;
+                    currentMonth = entry.date.month; // Reset month when year changes
                     drawYear = true;
+                    drawMonth = true;
                 }
                 if (entry.date.month > currentMonth) {
                     currentMonth = entry.date.month;
@@ -116,12 +120,15 @@ namespace FinMgr {
                     ImGui::Text("");
                 }
                 ImGui::TableSetColumnIndex(2); ImGui::Text("%d", entry.date.day);
+                const std::string editTransactedAmountLabel = "##" + name + std::to_string(i) + "Transacted";
+                ImGui::TableSetColumnIndex(3); ImGui::InputDouble(editTransactedAmountLabel.c_str(), &entry.expectedTransactionAmount, 0.0, 0.0, "%.2f");
                 expected += entry.expectedTransactionAmount;
-                ImGui::TableSetColumnIndex(3); ImGui::Text("%.2f", expected);
+                ImGui::TableSetColumnIndex(4); ImGui::Text("%.2f", expected);
 
-                const std::string editActualLabel = "Edit##" + name + std::to_string(i);
-                ImGui::TableSetColumnIndex(4); ImGui::InputDouble(editActualLabel.c_str(), &entry.actualState, 0.0, 0.0, "%.2f");
-                ImGui::TableSetColumnIndex(5); ImGui::Text("%.2f", entry.actualState - expected);
+                const std::string editActualLabel = "##" + name + std::to_string(i);
+                ImGui::TableSetColumnIndex(5); ImGui::InputDouble(editActualLabel.c_str(), &entry.actualState, 0.0, 0.0, "%.2f");
+                const double variance = entry.actualState - expected;
+                ImGui::TableSetColumnIndex(6); ImGui::Text("%.2f (%.2f%%)", variance, expected != 0.0 ? (variance / expected) * 100.0 : 0.0);
             }
             drawTotalRow(expected, entries.back().actualState, App::Styles::ColorGreen);
             ImGui::EndTable();
@@ -130,11 +137,14 @@ namespace FinMgr {
 
     void SavingsOverview::drawTotalRow(const double expected, const double actual, const ImVec4 &color) {
         ImGui::TableNextRow();
+        ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::ColorConvertFloat4ToU32(color));
         ImGui::TableSetColumnIndex(0); ImGui::Text("Total");
         ImGui::TableSetColumnIndex(1); ImGui::Text("");
         ImGui::TableSetColumnIndex(2); ImGui::Text("");
-        ImGui::TableSetColumnIndex(3); ImGui::TextColored(color, "%.2f", expected);
-        ImGui::TableSetColumnIndex(4); ImGui::TextColored(color, "%.2f", actual);
-        ImGui::TableSetColumnIndex(5); ImGui::TextColored(color, "%.2f", actual - expected);
+        ImGui::TableSetColumnIndex(3); ImGui::Text("");
+        ImGui::TableSetColumnIndex(4); ImGui::Text("%.2f", expected);
+        ImGui::TableSetColumnIndex(5); ImGui::Text("%.2f", actual);
+        const double variance = actual - expected;
+        ImGui::TableSetColumnIndex(6); ImGui::Text("%.2f, (%.2f%%)", variance, expected != 0.0 ? (variance / expected) * 100.0 : 0.0);
     }
 }
