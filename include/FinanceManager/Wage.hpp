@@ -28,6 +28,10 @@ namespace FinMgr {
 
         void addEntry(const WageEntry& entry);
 
+        void checkData();
+
+        void sortEntries();
+
         const std::string& getName() const;
 
         std::vector<WageEntry>& getEntries();
@@ -56,6 +60,8 @@ namespace FinMgr {
         std::unordered_map<std::string, Wage>& getWages();
 
         bool hasWage(const std::string& name) const;
+
+        void checkData();
 
         WageStatistics calculateStatistics(const Date& min, const Date& max) const;
 

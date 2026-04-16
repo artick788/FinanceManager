@@ -7,7 +7,15 @@ namespace FinMgr {
 
     void Wage::addEntry(const WageEntry& entry) {
         m_Entries.push_back(entry);
-        // sort entries by date
+        sortEntries();
+    }
+
+    void Wage::checkData() {
+        sortEntries();
+    }
+
+    void Wage::sortEntries() {
+        // Sort entries by date
         std::ranges::sort(m_Entries, [](const WageEntry& a, const WageEntry& b) {
             return a.date < b.date;
         });
@@ -62,5 +70,11 @@ namespace FinMgr {
             stats.totalAmount += totalAmount;
         }
         return stats;
+    }
+
+    void WageManager::checkData() {
+        for (auto &wage: m_Wages | std::views::values) {
+            wage.checkData();
+        }
     }
 }

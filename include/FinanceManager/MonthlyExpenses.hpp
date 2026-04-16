@@ -26,6 +26,10 @@ namespace FinMgr {
 
         void addEntry(const Date& date, double amount);
 
+        void checkData();
+
+        void sortEntries();
+
         std::vector<MonthlyExpenseEntry>& getEntries() { return m_Entries; }
 
         const std::vector<MonthlyExpenseEntry>& getEntries() const { return m_Entries; }
@@ -33,6 +37,8 @@ namespace FinMgr {
         VL_GENERATE_JSON_SERIALIZER(MonthlyExpense, m_Name, defaultTransactionDay, defaultTransactionAmount, m_Entries);
 
     private:
+        void addMissingEntries();
+
         std::string m_Name;
         std::vector<MonthlyExpenseEntry> m_Entries;
     };
@@ -50,6 +56,8 @@ namespace FinMgr {
         MonthlyExpense& getMonthlyExpense(const std::string& name);
 
         bool hasMonthlyExpense(const std::string& name) const;
+
+        void checkData();
 
          std::unordered_map<std::string, MonthlyExpense>& getMonthlyExpenses();
 

@@ -10,7 +10,15 @@ namespace FinMgr {
 
     void SavingsRecord::addEntry(const Date &date, const double expectedTransactionAmount, const double actualState) {
         m_Entries.emplace_back(SavingEntry{date, expectedTransactionAmount, actualState});
-        // Sort entries by date after adding a new one
+        sortEntries();
+    }
+
+    void SavingsRecord::checkData() {
+        sortEntries();
+    }
+
+    void SavingsRecord::sortEntries() {
+        // Sort entries by date
         std::ranges::sort(m_Entries, [](const SavingEntry& a, const SavingEntry& b) {
             return a.date < b.date;
         });
@@ -35,5 +43,11 @@ namespace FinMgr {
 
     bool SavingsManager::hasSavingsRecord(const std::string &name) const {
         return m_SavingsRecords.contains(name);
+    }
+
+    void SavingsManager::checkData() {
+        for (auto &record: m_SavingsRecords | std::views::values) {
+            record.checkData();
+        }
     }
 }

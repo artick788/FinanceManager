@@ -55,6 +55,9 @@ namespace FinMgr {
 
     void FinanceManagerLayer::loadSettings() {
         m_Store = m_AppData.settings.getSetting<Store>("Store");
+        m_Store.monthlyExpensesManager.checkData();
+        m_Store.wageManager.checkData();
+        m_Store.savingsManager.checkData();
     }
 
     void FinanceManagerLayer::saveSettings() {

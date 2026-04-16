@@ -33,6 +33,10 @@ namespace FinMgr {
 
         void addEntry(const Date& date, double expectedTransactionAmount, double actualState);
 
+        void checkData();
+
+        void sortEntries();
+
         std::vector<SavingEntry>& getEntries() { return m_Entries; }
 
         const std::vector<SavingEntry>& getEntries() const { return m_Entries; }
@@ -59,6 +63,8 @@ namespace FinMgr {
         std::unordered_map<std::string, SavingsRecord>& getSavingsRecords();
 
         bool hasSavingsRecord(const std::string& name) const;
+
+        void checkData();
 
         VL_GENERATE_JSON_SERIALIZER(SavingsManager, m_SavingsRecords);
 
