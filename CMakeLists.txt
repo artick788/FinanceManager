@@ -12,12 +12,14 @@ set(FINANCE_MANAGER_HEADERS
     include/FinanceManager/Date.hpp
     include/FinanceManager/Wage.hpp
     include/FinanceManager/Savings.hpp
+    include/FinanceManager/MonthlyExpenses.hpp
 )
 
 set(FINANCE_MANAGER_SRC
     src/FinanceManager/Date.cpp
     src/FinanceManager/Wage.cpp
     src/FinanceManager/Savings.cpp
+    src/FinanceManager/MonthlyExpenses.cpp
 )
 
 add_library(FinanceManager STATIC ${FINANCE_MANAGER_SRC} ${FINANCE_MANAGER_HEADERS})
@@ -33,11 +35,14 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/Utils.hpp
     src/FinanceManagerApp/IncomeOverview.hpp
     src/FinanceManagerApp/SavingsOverview.hpp
+    src/FinanceManagerApp/MonthlyExpenseOverview.hpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
     src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.hpp
     src/FinanceManagerApp/Popups/AddSavingsEntryPopup.hpp
+    src/FinanceManagerApp/Popups/CreateMonthlyExpensePopup.hpp
+    src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.hpp
 
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
@@ -49,11 +54,14 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/OverviewLayout.cpp
     src/FinanceManagerApp/IncomeOverview.cpp
     src/FinanceManagerApp/SavingsOverview.cpp
+    src/FinanceManagerApp/MonthlyExpenseOverview.cpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
     src/FinanceManagerApp/Popups/CreateSavingsRecordPopup.cpp
     src/FinanceManagerApp/Popups/AddSavingsEntryPopup.cpp
+    src/FinanceManagerApp/Popups/CreateMonthlyExpensePopup.cpp
+    src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )

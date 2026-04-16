@@ -2,6 +2,7 @@
 
 #include "IncomeOverview.hpp"
 #include "SavingsOverview.hpp"
+#include "MonthlyExpenseOverview.hpp"
 
 namespace FinMgr {
 
@@ -29,6 +30,7 @@ namespace FinMgr {
 
         IncomeOverview m_IncomeOverview;
         SavingsOverview m_SavingsOverview;
+        MonthlyExpenseOverview m_MonthlyExpenseOverview;
 
         int m_SelectedItemType = -1;
     };

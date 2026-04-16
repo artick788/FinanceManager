@@ -19,11 +19,13 @@ namespace FinMgr {
 
         void drawItems();
 
-        void drawItemDetail();
+        void drawItemDetail() const;
 
-        void drawIncomeDetail();
+        void drawIncomeDetail() const;
 
-        void drawSavingsDetail();
+        void drawSavingsDetail() const;
+
+        void drawMonthlyExpensesDetail() const;
 
     private:
         App::AppData& m_AppData;

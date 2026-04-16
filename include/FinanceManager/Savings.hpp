@@ -29,7 +29,7 @@ namespace FinMgr {
     public:
         SavingsRecord() = default;
 
-        SavingsRecord(const std::string& name, double initialAmount);
+        SavingsRecord(const std::string& name, double initialAmount_);
 
         void addEntry(const Date& date, double expectedTransactionAmount, double actualState);
 

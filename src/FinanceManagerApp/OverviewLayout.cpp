@@ -12,7 +12,8 @@ namespace FinMgr {
     m_AppData(appData),
     m_Store(store),
     m_IncomeOverview(appData, store),
-    m_SavingsOverview(appData, store) {
+    m_SavingsOverview(appData, store),
+    m_MonthlyExpenseOverview(appData, store) {
 
     }
 
@@ -68,7 +69,7 @@ namespace FinMgr {
                 m_SavingsOverview.drawStatistics();
                 break;
             case 2:
-                ImGui::Text("Monthly expenses statistics will be displayed here.");
+                m_MonthlyExpenseOverview.drawStatistics();
                 break;
             default:
                 ImGui::Text("Select an item type to view statistics.");
@@ -85,7 +86,7 @@ namespace FinMgr {
                 m_SavingsOverview.drawDetail();
                 break;
             case 2:
-                ImGui::Text("Monthly expenses details will be displayed here.");
+                m_MonthlyExpenseOverview.drawDetail();
                 break;
             default:
                 ImGui::Text("Select an item type to view details.");

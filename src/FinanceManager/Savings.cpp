@@ -2,8 +2,8 @@
 
 namespace FinMgr {
 
-    SavingsRecord::SavingsRecord(const std::string &name, const double initialAmount):
-    initialAmount(initialAmount),
+    SavingsRecord::SavingsRecord(const std::string &name, const double initialAmount_):
+    initialAmount(initialAmount_),
     m_Name(name){
 
     }
