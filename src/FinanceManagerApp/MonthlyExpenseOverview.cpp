@@ -98,20 +98,37 @@ namespace FinMgr {
             
             int currentYear = currentDate.year;
             bool drawYear = true;
-            double yearlyTotal = 0.0;
+            std::unordered_map<std::string, double> yearlyTotals;
+            std::unordered_map<std::string, double> totalTotals;
+            
+            // Initialize maps
+            for (const auto& expenseName : expenseNames) {
+                yearlyTotals[expenseName] = 0.0;
+                totalTotals[expenseName] = 0.0;
+            }
             
             while (currentDate <= now) {
                 ImGui::TableNextRow();
                 
                 // Check if we moved to a new year
                 if (currentDate.year > currentYear) {
+                    // Add yearly totals to total totals
+                    for (const auto& expenseName : expenseNames) {
+                        totalTotals[expenseName] += yearlyTotals[expenseName];
+                    }
+                    
                     // Draw yearly total row
-                    drawTotalRow(expenseNames, yearlyTotal, App::Styles::ColorHighLight);
+                    drawTotalRow(expenseNames, yearlyTotals, App::Styles::ColorHighLight);
                     tableEmptyRow(columnCount);
                     
                     ImGui::TableNextRow();
                     currentYear = currentDate.year;
-                    yearlyTotal = 0.0;
+                    
+                    // Clear yearly totals
+                    for (const auto& expenseName : expenseNames) {
+                        yearlyTotals[expenseName] = 0.0;
+                    }
+                    
                     drawYear = true;
                 }
                 
@@ -130,7 +147,6 @@ namespace FinMgr {
                 ImGui::Text("%s", getMonthStr(currentDate.month));
                 
                 // Draw each expense amount for this month
-                double monthTotal = 0.0;
                 Size colIndex = 2;
                 for (const auto& expenseName : expenseNames) {
                     ImGui::TableSetColumnIndex(colIndex++);
@@ -144,7 +160,7 @@ namespace FinMgr {
                         if (entry.date.year == currentDate.year && entry.date.month == currentDate.month) {
                             const std::string editLabel = "##" + expenseName + std::to_string(currentDate.year) + std::to_string(currentDate.month);
                             ImGui::InputDouble(editLabel.c_str(), &entry.amount, 0.0, 0.0, "%.2f");
-                            monthTotal += entry.amount;
+                            yearlyTotals[expenseName] += entry.amount;
                             foundEntry = true;
                             break;
                         }
@@ -163,9 +179,19 @@ namespace FinMgr {
                 
                 // Draw Total column
                 ImGui::TableSetColumnIndex(colIndex);
+                double monthTotal = 0.0;
+                for (const auto& expenseName : expenseNames) {
+                    auto& expense = expenses[expenseName];
+                    auto& entries = expense.getEntries();
+                    for (auto& entry : entries) {
+                        if (entry.date.year == currentDate.year && entry.date.month == currentDate.month) {
+                            monthTotal += entry.amount;
+                            break;
+                        }
+                    }
+                }
                 if (monthTotal > 0.0) {
                     ImGui::Text("%.2f", monthTotal);
-                    yearlyTotal += monthTotal;
                 }
                 else {
                     ImGui::Text("");
@@ -176,14 +202,22 @@ namespace FinMgr {
                 currentDate.day = 1;
             }
             
+            // Add final year's totals to total totals
+            for (const auto& expenseName : expenseNames) {
+                totalTotals[expenseName] += yearlyTotals[expenseName];
+            }
+            
             // Draw final yearly total
-            drawTotalRow(expenseNames, yearlyTotal, App::Styles::ColorHighLight);
+            drawTotalRow(expenseNames, yearlyTotals, App::Styles::ColorHighLight);
+            
+            // Draw overall total
+            drawTotalRow(expenseNames, totalTotals, App::Styles::ColorGreen);
             
             ImGui::EndTable();
         }
     }
 
-    void MonthlyExpenseOverview::drawTotalRow(const std::vector<std::string>& expenseNames, const double total, const ImVec4& color) {
+    void MonthlyExpenseOverview::drawTotalRow(const std::vector<std::string>& expenseNames, const std::unordered_map<std::string, double>& totals, const ImVec4& color) {
         ImGui::TableNextRow();
         ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::ColorConvertFloat4ToU32(color));
         ImGui::TableSetColumnIndex(0);
@@ -191,14 +225,22 @@ namespace FinMgr {
         ImGui::TableSetColumnIndex(1);
         ImGui::Text("");
         
-        // Skip expense columns
+        // Draw individual expense totals
+        double grandTotal = 0.0;
         for (Size i = 0; i < expenseNames.size(); ++i) {
             ImGui::TableSetColumnIndex(2 + i);
-            ImGui::Text("");
+            const double expenseTotal = totals.at(expenseNames[i]);
+            if (expenseTotal > 0.0) {
+                ImGui::Text("%.2f", expenseTotal);
+                grandTotal += expenseTotal;
+            }
+            else {
+                ImGui::Text("");
+            }
         }
         
-        // Draw total
+        // Draw grand total
         ImGui::TableSetColumnIndex(2 + expenseNames.size());
-        ImGui::Text("%.2f", total);
+        ImGui::Text("%.2f", grandTotal);
     }
 }

@@ -19,7 +19,7 @@ namespace FinMgr {
 
         void drawTable();
 
-        void drawTotalRow(const std::vector<std::string>& expenseNames, const double total, const ImVec4& color);
+        void drawTotalRow(const std::vector<std::string>& expenseNames, const std::unordered_map<std::string, double>& totals, const ImVec4& color);
 
     private:
         App::AppData& m_AppData;
