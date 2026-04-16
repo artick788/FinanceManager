@@ -30,7 +30,9 @@ namespace FinMgr {
                 if (ImGui::Selectable(name.c_str())) {
                     m_SelectedExpenseName = name;
                     m_FullyFilled = true; // Assuming selecting an expense is the only required field for now
-                    m_InputDate.day = m_Store.monthlyExpensesManager.getMonthlyExpense(name).defaultTransactionDay;
+                    MonthlyExpense& selectedExpense = m_Store.monthlyExpensesManager.getMonthlyExpense(name);
+                    m_InputDate.day = selectedExpense.defaultTransactionDay;
+                    m_InputAmount = selectedExpense.defaultTransactionAmount;
                 }
             }
             ImGui::EndCombo();
@@ -50,7 +52,9 @@ namespace FinMgr {
         ImGui::BeginDisabled(!m_FullyFilled);
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorGreen);
         if (ImGui::Button("Add", ImVec2(100.0f, App::Styles::ButtonHeight))) {
-
+            m_Store.monthlyExpensesManager.getMonthlyExpense(m_SelectedExpenseName).addEntry(m_InputDate, m_InputAmount);
+            reset();
+            setOpen(false);
         }
         ImGui::PopStyleColor();
         ImGui::EndDisabled();

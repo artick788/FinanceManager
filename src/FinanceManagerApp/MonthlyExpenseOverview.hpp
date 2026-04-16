@@ -19,6 +19,8 @@ namespace FinMgr {
 
         void drawTable();
 
+        void drawTotalRow(const std::vector<std::string>& expenseNames, const double total, const ImVec4& color);
+
     private:
         App::AppData& m_AppData;
         Store& m_Store;
