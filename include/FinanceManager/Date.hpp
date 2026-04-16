@@ -35,7 +35,11 @@ namespace FinMgr {
 
         U64 toInteger() const;
 
-        VL_GENERATE_JSON_SERIALIZER(Date, day, month, year)
+        void fromInteger(U64 value);
+
+        void fromJson(const nlohmann::json& j);
+
+        nlohmann::json toJson() const;
     };
 
     Date getCurrentDate();

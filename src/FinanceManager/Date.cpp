@@ -91,6 +91,20 @@ namespace FinMgr {
            static_cast<U64>(day);
     }
 
+    void Date::fromInteger(const U64 value) {
+        year = static_cast<int>(value / 10000);
+        month = static_cast<int>((value % 10000) / 100);
+        day = static_cast<int>(value % 100);
+    }
+
+    void Date::fromJson(const nlohmann::json &j) {
+        fromInteger(j.get<U64>());
+    }
+
+    nlohmann::json Date::toJson() const {
+        return toInteger();
+    }
+
     Date getCurrentDate() {
         const auto now = std::chrono::system_clock::now();
         const std::time_t now_c = std::chrono::system_clock::to_time_t(now);

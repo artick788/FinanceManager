@@ -192,3 +192,13 @@ TEST_F(TestDate, ConstructionOrderValidation) {
     EXPECT_EQ(d1.month, 4);
     EXPECT_EQ(d1.year, 2026);
 }
+
+TEST_F(TestDate, FromInteger) {
+    Date d1(17, 12, 2025);
+    U64 intValue = d1.toInteger();
+
+    Date d2;
+    d2.fromInteger(intValue);
+
+    EXPECT_EQ(d1, d2);
+}
