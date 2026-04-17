@@ -105,6 +105,14 @@ namespace FinMgr {
         return toInteger();
     }
 
+    double Date::toUnixTimestamp() const {
+        std::tm tm = {};
+        tm.tm_year = year - 1900; // tm_year is years since 1900
+        tm.tm_mon = month - 1;    // tm_mon is 0-based
+        tm.tm_mday = day;
+        return static_cast<double>(std::mktime(&tm));
+    }
+
     Date getCurrentDate() {
         const auto now = std::chrono::system_clock::now();
         const std::time_t now_c = std::chrono::system_clock::to_time_t(now);

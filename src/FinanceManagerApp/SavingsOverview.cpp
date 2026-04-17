@@ -6,6 +6,8 @@
 
 #include <VelyraAppFramework/Styles.hpp>
 
+#include "Panels/SavingsTrendPanel.hpp"
+
 namespace FinMgr {
 
     SavingsOverview::SavingsOverview(App::AppData &appData, Store &store):
@@ -29,15 +31,15 @@ namespace FinMgr {
             for (auto& [name, record]: savings) {
                 if (ImGui::BeginTabItem(name.c_str())) {
                     const std::string addEntryLabel = "Add Entry##" + name;
-                    const std::string graphsLabel = "Graphs##" + name;
+                    const std::string trendGraphLabel = "Trend Graph##" + name;
 
                     if (ImGui::Button(addEntryLabel.c_str())) {
                         m_Store.addSavingsEntryPopup->setSavingsName(name);
                         m_Store.addSavingsEntryPopup->setOpen(true);
                     }
                     ImGui::SameLine();
-                    if (ImGui::Button(graphsLabel.c_str())) {
-                        // TODO: Open graphs for this savings record
+                    if (ImGui::Button(trendGraphLabel.c_str())) {
+                        m_AppData.addPanel(std::make_shared<SavingsTrendPanel>(m_AppData, record));
                     }
 
                     ImGui::Separator();

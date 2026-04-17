@@ -48,6 +48,8 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/Popups/CreateMonthlyExpensePopup.hpp
     src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.hpp
 
+    src/FinanceManagerApp/Panels/SavingsTrendPanel.hpp
+
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
 
@@ -66,6 +68,8 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/Popups/AddSavingsEntryPopup.cpp
     src/FinanceManagerApp/Popups/CreateMonthlyExpensePopup.cpp
     src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.cpp
+
+    src/FinanceManagerApp/Panels/SavingsTrendPanel.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )

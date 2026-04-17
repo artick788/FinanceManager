@@ -40,6 +40,8 @@ namespace FinMgr {
         void fromJson(const nlohmann::json& j);
 
         nlohmann::json toJson() const;
+
+        double toUnixTimestamp() const;
     };
 
     Date getCurrentDate();
