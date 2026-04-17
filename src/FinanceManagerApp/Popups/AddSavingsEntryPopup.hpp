@@ -13,9 +13,7 @@ namespace FinMgr {
 
         ~AddSavingsEntryPopup() override = default;
 
-        void setSavingsName(const std::string& savingsName) {
-            m_SavingsName = savingsName;
-        }
+        void setSavingsName(const std::string& savingsName);
 
     protected:
 

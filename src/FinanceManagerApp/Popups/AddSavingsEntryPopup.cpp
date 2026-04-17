@@ -12,6 +12,12 @@ namespace FinMgr {
 
     }
 
+    void AddSavingsEntryPopup::setSavingsName(const std::string& savingsName) {
+        m_SavingsName = savingsName;
+        const auto& record = m_Store.savingsManager.getSavingsRecord(m_SavingsName);
+        m_InputAmount = record.defaultTransactionAmount;
+    }
+
     void AddSavingsEntryPopup::drawContent() {
         Widgets::DateInput(m_InputDate, true);
         ImGui::InputDouble("Amount", &m_InputAmount, 0.01, 0.0, "%.2f");

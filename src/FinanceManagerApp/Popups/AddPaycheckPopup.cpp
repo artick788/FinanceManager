@@ -12,6 +12,10 @@ namespace FinMgr {
 
     }
 
+    void AddPaycheckPopup::setWageName(const std::string &wageName) {
+        m_WageName = wageName;
+    }
+
     void AddPaycheckPopup::drawContent() {
         Widgets::DateInput(m_InputDate, true);
         ImGui::InputDouble("Amount", &m_InputCheck, 0.01, 1.0, "%.2f");

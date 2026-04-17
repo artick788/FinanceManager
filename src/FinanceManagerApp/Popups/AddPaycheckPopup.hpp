@@ -13,9 +13,7 @@ namespace FinMgr {
 
         ~AddPaycheckPopup() override = default;
 
-        void setWageName(const std::string& wageName) {
-            m_WageName = wageName;
-        }
+        void setWageName(const std::string& wageName);
 
     protected:
 
