@@ -67,7 +67,10 @@ set(FINANCE_MANAGER_APP_SRC
 )
 
 add_executable(FinanceManagerApp main.cpp ${FINANCE_MANAGER_APP_SRC} ${FINANCE_MANAGER_APP_HEADERS})
-target_link_libraries(FinanceManagerApp PUBLIC FinanceManager VelyraAppFramework)
+target_link_libraries(FinanceManagerApp PRIVATE FinanceManager VelyraAppFramework)
+install(TARGETS FinanceManagerApp
+    RUNTIME DESTINATION bin
+)
 
 set(FINANCE_MANAGER_TEST_SRC
     test/TestDate.cpp

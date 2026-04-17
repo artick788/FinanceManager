@@ -1,7 +1,5 @@
 #!/bin/bash
 
-git submodule init
-git submodule update
 git submodule update --init --recursive
 
 # check if ninja is available, if so use it, otherwise fallback to default cmake build
@@ -13,5 +11,5 @@ else
     cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 fi
 
-cmake --build build -j$(nproc)
-
+cmake --build build --target FinanceManagerApp --parallel
+cmake --install build --prefix ~/.local
