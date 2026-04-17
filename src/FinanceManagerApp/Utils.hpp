@@ -8,7 +8,7 @@ namespace FinMgr {
         ImGui::TableNextRow();
         for (Size col = 0; col < columnCount; ++col) {
             ImGui::TableNextColumn();
-            ImGui::Text("");
+            ImGui::TextUnformatted("");
         }
     }
 

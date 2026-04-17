@@ -106,7 +106,7 @@ namespace FinMgr {
                     drawYear = false;
                 }
                 else {
-                    ImGui::Text("");
+                    ImGui::TextUnformatted("");
                 }
                 ImGui::TableSetColumnIndex(1); ImGui::Text("%s", getMonthStr(entry.date.month));
                 ImGui::TableSetColumnIndex(2); ImGui::Text("%d", entry.date.day);
@@ -136,8 +136,8 @@ namespace FinMgr {
         ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::ColorConvertFloat4ToU32(color));
         ImGui::TableSetColumnIndex(0);
         ImGui::Text("Total:");
-        ImGui::TableSetColumnIndex(1); ImGui::Text("");
-        ImGui::TableSetColumnIndex(2); ImGui::Text("");
+        ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted("");
+        ImGui::TableSetColumnIndex(2); ImGui::TextUnformatted("");
         ImGui::TableSetColumnIndex(3); ImGui::Text("%.2f", check);
         ImGui::TableSetColumnIndex(4); ImGui::Text("%.2f", extra);
         ImGui::TableSetColumnIndex(5); ImGui::Text("%.2f", total);

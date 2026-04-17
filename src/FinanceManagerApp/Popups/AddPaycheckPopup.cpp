@@ -14,8 +14,8 @@ namespace FinMgr {
 
     void AddPaycheckPopup::drawContent() {
         Widgets::DateInput(m_InputDate, true);
-        ImGui::InputDouble("Amount", &m_InputCheck);
-        ImGui::InputDouble("Extra", &m_InputExtra);
+        ImGui::InputDouble("Amount", &m_InputCheck, 0.01, 1.0, "%.2f");
+        ImGui::InputDouble("Extra", &m_InputExtra, 0.01, 1.0, "%.2f");
 
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorGreen);
         if (ImGui::Button("Add", ImVec2(100.0f, App::Styles::ButtonHeight))) {

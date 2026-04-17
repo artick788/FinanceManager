@@ -3,6 +3,10 @@ project(FinanceManager DESCRIPTION "Manage your finances")
 
 include(VelyraBuildUtils/VelyraBuildUtils.cmake)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_INFO)
+endif ()
+
 set(VELYRA_APP_FRAMEWORK_PATH)
 vl_include_or_fetch(VelyraAppFramework VELYRA_APP_FRAMEWORK_PATH)
 message(STATUS "VelyraAppFramework found at ${VELYRA_APP_FRAMEWORK_PATH}")

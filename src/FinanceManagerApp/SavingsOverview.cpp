@@ -73,9 +73,9 @@ namespace FinMgr {
             // First row for initial amount
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);  ImGui::Text("Start");
-            ImGui::TableSetColumnIndex(1);  ImGui::Text("");
-            ImGui::TableSetColumnIndex(2);  ImGui::Text("");
-            ImGui::TableSetColumnIndex(3);  ImGui::Text("");
+            ImGui::TableSetColumnIndex(1);  ImGui::TextUnformatted("");
+            ImGui::TableSetColumnIndex(2);  ImGui::TextUnformatted("");
+            ImGui::TableSetColumnIndex(3);  ImGui::TextUnformatted("");
             ImGui::TableSetColumnIndex(4);  ImGui::Text("%.2f", expected);
             ImGui::TableSetColumnIndex(5);  ImGui::Text("%.2f", record.initialAmount);
             ImGui::TableSetColumnIndex(6);  ImGui::Text("%.2f", record.initialAmount - expected);
@@ -109,7 +109,7 @@ namespace FinMgr {
                     drawYear = false;
                 }
                 else {
-                    ImGui::Text("");
+                    ImGui::TextUnformatted("");
                 }
                 ImGui::TableSetColumnIndex(1);
                 if (drawMonth) {
@@ -117,7 +117,7 @@ namespace FinMgr {
                     drawMonth = false;
                 }
                 else {
-                    ImGui::Text("");
+                    ImGui::TextUnformatted("");
                 }
                 ImGui::TableSetColumnIndex(2); ImGui::Text("%d", entry.date.day);
                 const std::string editTransactedAmountLabel = "##" + name + std::to_string(i) + "Transacted";
@@ -139,9 +139,9 @@ namespace FinMgr {
         ImGui::TableNextRow();
         ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::ColorConvertFloat4ToU32(color));
         ImGui::TableSetColumnIndex(0); ImGui::Text("Total");
-        ImGui::TableSetColumnIndex(1); ImGui::Text("");
-        ImGui::TableSetColumnIndex(2); ImGui::Text("");
-        ImGui::TableSetColumnIndex(3); ImGui::Text("");
+        ImGui::TableSetColumnIndex(1); ImGui::TextUnformatted("");
+        ImGui::TableSetColumnIndex(2); ImGui::TextUnformatted("");
+        ImGui::TableSetColumnIndex(3); ImGui::TextUnformatted("");
         ImGui::TableSetColumnIndex(4); ImGui::Text("%.2f", expected);
         ImGui::TableSetColumnIndex(5); ImGui::Text("%.2f", actual);
         const double variance = actual - expected;

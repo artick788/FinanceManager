@@ -139,7 +139,7 @@ namespace FinMgr {
                     drawYear = false;
                 }
                 else {
-                    ImGui::Text("");
+                    ImGui::TextUnformatted("");
                 }
                 
                 // Draw Month column
@@ -172,7 +172,7 @@ namespace FinMgr {
                             ImGui::Text("N/A");
                         }
                         else {
-                            ImGui::Text("");
+                            ImGui::TextUnformatted("");
                         }
                     }
                 }
@@ -194,7 +194,7 @@ namespace FinMgr {
                     ImGui::Text("%.2f", monthTotal);
                 }
                 else {
-                    ImGui::Text("");
+                    ImGui::TextUnformatted("");
                 }
                 
                 // Move to next month
@@ -223,7 +223,7 @@ namespace FinMgr {
         ImGui::TableSetColumnIndex(0);
         ImGui::Text("Total:");
         ImGui::TableSetColumnIndex(1);
-        ImGui::Text("");
+        ImGui::TextUnformatted("");
         
         // Draw individual expense totals
         double grandTotal = 0.0;
@@ -235,7 +235,7 @@ namespace FinMgr {
                 grandTotal += expenseTotal;
             }
             else {
-                ImGui::Text("");
+                ImGui::TextUnformatted("");
             }
         }
         
