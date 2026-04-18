@@ -15,12 +15,20 @@ namespace FinMgr {
         void drawContent() override;
 
     private:
+        void drawDetails();
+
+        void drawGraph();
+
         void createSavingsData(const SavingsRecord& record);
 
     private:
         std::vector<double> m_Times;
         std::vector<double> m_ExpectedSavings;
         std::vector<double> m_ActualSavings;
+
+        std::array<double, 2> m_TimeRange;
+        std::array<double, 2> m_TrendPoints;
+        double m_AvgMonthlyChange = 0.0;
 
     };
 }

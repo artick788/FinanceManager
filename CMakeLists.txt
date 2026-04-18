@@ -58,6 +58,7 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/Store.cpp
     src/FinanceManagerApp/ConfigureFinanceLayout.cpp
     src/FinanceManagerApp/OverviewLayout.cpp
+    src/FinanceManagerApp/Utils.cpp
     src/FinanceManagerApp/IncomeOverview.cpp
     src/FinanceManagerApp/SavingsOverview.cpp
     src/FinanceManagerApp/MonthlyExpenseOverview.cpp

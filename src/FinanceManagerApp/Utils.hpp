@@ -30,4 +30,16 @@ namespace FinMgr {
         return months[month - 1];
     }
 
+    /**
+     *
+     * @Brief Results for the Ordinary Least Squares (OLS) linear regression.
+     */
+    struct OLSLinearRegression {
+        double slope = 0.0;
+        double intercept = 0.0;
+        double rSquared = 0.0;
+    };
+
+    OLSLinearRegression performOLSLinearRegression(const std::vector<double>& x, const std::vector<double>& y);
+
 }
