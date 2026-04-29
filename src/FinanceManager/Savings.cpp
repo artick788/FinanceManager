@@ -24,6 +24,15 @@ namespace FinMgr {
         });
     }
 
+    double SavingsRecord::getMonthlySavedAmount(const Date &date) const {
+        for (const auto& entry: m_Entries) {
+            if (entry.date.year == date.year && entry.date.month == date.month) {
+                return entry.actualState;
+            }
+        }
+        return 0.0;
+    }
+
     void SavingsManager::createSavingsRecord(const std::string &name, const double initialAmount, const double defaultTransactionAmount) {
         m_SavingsRecords.emplace(name, SavingsRecord(name, initialAmount));
         m_SavingsRecords.at(name).defaultTransactionAmount = defaultTransactionAmount;
@@ -49,5 +58,35 @@ namespace FinMgr {
         for (auto &record: m_SavingsRecords | std::views::values) {
             record.checkData();
         }
+    }
+
+    TotalSavingsTrend SavingsManager::getTotalSavingsTrend() const {
+        TotalSavingsTrend trend;
+
+        Date earliestDate = getEarliestSavingsRecordDate();
+        const Date currentDate = getCurrentDate();
+        for (; earliestDate <= currentDate; earliestDate.monthIncrement()) {
+            trend.dates.push_back(earliestDate.toUnixTimestamp());
+
+            double totalSavedAmount = 0.0;
+            for (const auto& record: m_SavingsRecords | std::views::values) {
+                totalSavedAmount += record.getMonthlySavedAmount(earliestDate);
+            }
+            trend.actualAmounts.push_back(totalSavedAmount);
+        }
+        return trend;
+    }
+
+    Date SavingsManager::getEarliestSavingsRecordDate() const {
+        Date earliestDate = Date(31, 12, 9999); // I will probably never live longer than the year 9999
+        for (const auto& record: m_SavingsRecords | std::views::values) {
+            if (!record.getEntries().empty()) {
+                const Date& recordEarliestDate = record.getEntries().front().date;
+                if (recordEarliestDate < earliestDate) {
+                    earliestDate = recordEarliestDate;
+                }
+            }
+        }
+        return earliestDate;
     }
 }

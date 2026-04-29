@@ -37,6 +37,14 @@ namespace FinMgr {
 
         void sortEntries();
 
+        /**
+         * @brief Get the amount saved for the month of the given date. The date field is only used to determine the
+         *        year and month.
+         * @param date
+         * @return
+         */
+        double getMonthlySavedAmount(const Date& date) const;
+
         std::vector<SavingEntry>& getEntries() { return m_Entries; }
 
         const std::vector<SavingEntry>& getEntries() const { return m_Entries; }
@@ -46,6 +54,11 @@ namespace FinMgr {
     private:
         std::string m_Name;
         std::vector<SavingEntry> m_Entries;
+    };
+
+    struct TotalSavingsTrend {
+        std::vector<double> dates;
+        std::vector<double> actualAmounts;
     };
 
     class SavingsManager {
@@ -65,6 +78,10 @@ namespace FinMgr {
         bool hasSavingsRecord(const std::string& name) const;
 
         void checkData();
+
+        TotalSavingsTrend getTotalSavingsTrend() const;
+
+        Date getEarliestSavingsRecordDate() const;
 
         VL_GENERATE_JSON_SERIALIZER(SavingsManager, m_SavingsRecords);
 
