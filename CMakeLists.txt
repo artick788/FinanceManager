@@ -27,7 +27,7 @@ set(FINANCE_MANAGER_SRC
 )
 
 add_library(FinanceManager STATIC ${FINANCE_MANAGER_SRC} ${FINANCE_MANAGER_HEADERS})
-vl_target_set_compile_flags(FinanceManager)
+vl_configure_target(FinanceManager)
 target_link_libraries(FinanceManager PUBLIC VelyraUtils)
 target_include_directories(FinanceManager PUBLIC include)
 
@@ -40,6 +40,7 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/IncomeOverview.hpp
     src/FinanceManagerApp/SavingsOverview.hpp
     src/FinanceManagerApp/MonthlyExpenseOverview.hpp
+    src/FinanceManagerApp/TotalsLayout.hpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
@@ -62,6 +63,7 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/IncomeOverview.cpp
     src/FinanceManagerApp/SavingsOverview.cpp
     src/FinanceManagerApp/MonthlyExpenseOverview.cpp
+    src/FinanceManagerApp/TotalsLayout.cpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp

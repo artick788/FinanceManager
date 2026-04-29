@@ -5,6 +5,7 @@
 #include "Store.hpp"
 #include "OverviewLayout.hpp"
 #include "ConfigureFinanceLayout.hpp"
+#include "TotalsLayout.hpp"
 
 namespace FinMgr {
     
@@ -38,6 +39,7 @@ namespace FinMgr {
 
         UP<OverviewLayout> m_OverviewLayout;
         UP<ConfigureFinanceLayout> m_ConfigureFinanceLayout;
+        UP<TotalsLayout> m_TotalsLayout;
     };
 
 }

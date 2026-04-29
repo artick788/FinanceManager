@@ -8,7 +8,8 @@
 
 VL_ENUM(AppState, int,
     Overview = 0,
-    ConfigureFinance = 1
+    ConfigureFinance = 1,
+    Totals = 2
 );
 
 namespace FinMgr {

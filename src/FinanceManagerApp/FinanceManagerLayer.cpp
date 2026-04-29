@@ -17,6 +17,7 @@ namespace FinMgr {
 
         m_ConfigureFinanceLayout = createUP<ConfigureFinanceLayout>(m_AppData, m_Store);
         m_OverviewLayout = createUP<OverviewLayout>(m_AppData, m_Store);
+        m_TotalsLayout = createUP<TotalsLayout>(m_AppData, m_Store);
 
         setLayout();
         attachPopups();
@@ -43,6 +44,10 @@ namespace FinMgr {
                 m_ConfigureFinanceLayout->draw();
                 break;
             }
+            case Totals: {
+                m_TotalsLayout->draw();
+                break;
+            }
             default:
                 return;
         }
@@ -51,6 +56,7 @@ namespace FinMgr {
     void FinanceManagerLayer::setLayout() const {
         m_AppData.layoutEngine.registerLayout(Utils::toString(Overview), m_OverviewLayout->createLayout());
         m_AppData.layoutEngine.registerLayout(Utils::toString(ConfigureFinance), m_ConfigureFinanceLayout->createLayout());
+        m_AppData.layoutEngine.registerLayout(Utils::toString(Totals), m_TotalsLayout->createLayout());
     }
 
     void FinanceManagerLayer::loadSettings() {
@@ -92,6 +98,9 @@ namespace FinMgr {
                 }
                 if (ImGui::MenuItem("Finance Configuration")) {
                     m_Store.state = ConfigureFinance;
+                }
+                if (ImGui::MenuItem("Totals")) {
+                    m_Store.state = Totals;
                 }
                 ImGui::EndMenu();
             }
