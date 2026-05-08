@@ -7,6 +7,7 @@
 #include <VelyraAppFramework/Styles.hpp>
 
 #include "Panels/SavingsTrendPanel.hpp"
+#include "Panels/TotalSavingsTrendPanel.hpp"
 
 namespace FinMgr {
 
@@ -17,6 +18,9 @@ namespace FinMgr {
     }
 
     void SavingsOverview::drawStatistics() const {
+        if (ImGui::Button("Show Total Savings Evolution")) {
+            m_AppData.addPanel(createSP<TotalSavingsTrendPanel>(m_AppData, m_Store));
+        }
 
     }
 
@@ -39,7 +43,7 @@ namespace FinMgr {
                     }
                     ImGui::SameLine();
                     if (ImGui::Button(trendGraphLabel.c_str())) {
-                        m_AppData.addPanel(std::make_shared<SavingsTrendPanel>(m_AppData, record));
+                        m_AppData.addPanel(createSP<SavingsTrendPanel>(m_AppData, record));
                     }
 
                     ImGui::Separator();

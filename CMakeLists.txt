@@ -40,7 +40,6 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/IncomeOverview.hpp
     src/FinanceManagerApp/SavingsOverview.hpp
     src/FinanceManagerApp/MonthlyExpenseOverview.hpp
-    src/FinanceManagerApp/TotalsLayout.hpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
@@ -50,6 +49,7 @@ set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.hpp
 
     src/FinanceManagerApp/Panels/SavingsTrendPanel.hpp
+    src/FinanceManagerApp/Panels/TotalSavingsTrendPanel.hpp
 
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
@@ -63,7 +63,6 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/IncomeOverview.cpp
     src/FinanceManagerApp/SavingsOverview.cpp
     src/FinanceManagerApp/MonthlyExpenseOverview.cpp
-    src/FinanceManagerApp/TotalsLayout.cpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
@@ -73,6 +72,7 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/Popups/AddMonthlyExpensePopup.cpp
 
     src/FinanceManagerApp/Panels/SavingsTrendPanel.cpp
+    src/FinanceManagerApp/Panels/TotalSavingsTrendPanel.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )
