@@ -24,13 +24,20 @@ namespace FinMgr {
         });
     }
 
-    double SavingsRecord::getMonthlySavedAmount(const Date &date) const {
+    SavingsStatistics SavingsRecord::getMonthlySavedAmount(const Date &date) const {
+        SavingsStatistics stats;
+        stats.expectedAmount = initialAmount;
+        stats.actualAmount = 0.0;
         for (const auto& entry: m_Entries) {
+            if (entry.date <= date) {
+                stats.expectedAmount += entry.expectedTransactionAmount;
+            }
             if (entry.date.year == date.year && entry.date.month == date.month) {
-                return entry.actualState;
+                stats.actualAmount = entry.actualState;
+                return stats;
             }
         }
-        return 0.0;
+        return stats;
     }
 
     void SavingsManager::createSavingsRecord(const std::string &name, const double initialAmount, const double defaultTransactionAmount) {
@@ -68,11 +75,15 @@ namespace FinMgr {
         for (; earliestDate <= currentDate; earliestDate.monthIncrement()) {
             trend.dates.push_back(earliestDate.toUnixTimestamp());
 
-            double totalSavedAmount = 0.0;
+            double totalActualSavedAmount = 0.0;
+            double totalExpectedSavedAmount = 0.0;
             for (const auto& record: m_SavingsRecords | std::views::values) {
-                totalSavedAmount += record.getMonthlySavedAmount(earliestDate);
+                auto [expectedAmount, actualAmount] = record.getMonthlySavedAmount(earliestDate);
+                totalActualSavedAmount += actualAmount;
+                totalExpectedSavedAmount += expectedAmount;
             }
-            trend.actualAmounts.push_back(totalSavedAmount);
+            trend.actualAmounts.push_back(totalActualSavedAmount);
+            trend.expectedAmounts.push_back(totalExpectedSavedAmount);
         }
         return trend;
     }

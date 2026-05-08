@@ -43,7 +43,7 @@ namespace FinMgr {
          * @param date
          * @return
          */
-        double getMonthlySavedAmount(const Date& date) const;
+        SavingsStatistics getMonthlySavedAmount(const Date& date) const;
 
         std::vector<SavingEntry>& getEntries() { return m_Entries; }
 
@@ -59,6 +59,7 @@ namespace FinMgr {
     struct TotalSavingsTrend {
         std::vector<double> dates;
         std::vector<double> actualAmounts;
+        std::vector<double> expectedAmounts;
     };
 
     class SavingsManager {

@@ -30,6 +30,7 @@ namespace FinMgr {
             ImPlot::SetupAxes("Time", "Amount");
             ImPlot::SetupAxisScale(ImAxis_X1, ImPlotScale_Time);
 
+            ImPlot::PlotLine("Expected Savings", m_Trend.dates.data(), m_Trend.expectedAmounts.data(), m_Trend.dates.size());
             ImPlot::PlotLine("Actual Savings", m_Trend.dates.data(), m_Trend.actualAmounts.data(), m_Trend.dates.size());
             ImPlot::PlotLine("Trend Line", m_TimeRange.data(), m_TrendPoints.data(), 2);
 
