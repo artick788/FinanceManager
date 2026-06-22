@@ -17,7 +17,15 @@ namespace FinMgr {
     }
 
     void ExpenseTrendPanel::drawDetails() {
+        const auto max_it = std::ranges::max_element(m_Values);
+        Size maxIdx = std::distance(m_Values.begin(), max_it);
+        const auto min_it = std::ranges::min_element(m_Values);
+        Size minIdx = std::distance(m_Values.begin(), min_it);
 
+        const TimePoint maxTime = TimePoint(Duration{m_Times[maxIdx]});
+        const TimePoint minTime = TimePoint(Duration{m_Times[minIdx]});
+        ImGui::Text("Most Expensive month: %s with %.2f", Utils::toString(maxTime).c_str(), m_Values[maxIdx]);
+        ImGui::Text("Least Expensive month: %s with %.2f", Utils::toString(minTime).c_str(), m_Values[minIdx]);
     }
 
     void ExpenseTrendPanel::drawGraph() {
