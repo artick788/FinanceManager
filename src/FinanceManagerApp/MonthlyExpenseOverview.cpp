@@ -3,8 +3,10 @@
 #include "Utils.hpp"
 
 #include "Popups/AddMonthlyExpensePopup.hpp"
+#include "Panels/ExpenseTrendPanel.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
+#include <ranges>
 
 namespace FinMgr {
 
@@ -27,9 +29,9 @@ namespace FinMgr {
             auto& entries = expense.getEntries();
             if (!entries.empty()) {
                 // Get the most recent entry for each expense
-                for (auto it = entries.rbegin(); it != entries.rend(); ++it) {
-                    if (it->date <= now) {
-                        totalMonthlyExpense += it->amount;
+                for (auto &[date, amount] : std::views::reverse(entries)) {
+                    if (date <= now) {
+                        totalMonthlyExpense += amount;
                         break;
                     }
                 }
@@ -40,6 +42,12 @@ namespace FinMgr {
         }
 
         ImGui::TextWrapped("Total Monthly Expenses: %.2f", totalMonthlyExpense);
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+        if (ImGui::Button("Show total expense evolution")) {
+            m_AppData.addPanel(createSP<ExpenseTrendPanel>(m_AppData, m_Store));
+        }
     }
 
     void MonthlyExpenseOverview::drawDetail() {

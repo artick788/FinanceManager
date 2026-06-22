@@ -50,6 +50,7 @@ set(FINANCE_MANAGER_APP_HEADERS
 
     src/FinanceManagerApp/Panels/SavingsTrendPanel.hpp
     src/FinanceManagerApp/Panels/TotalSavingsTrendPanel.hpp
+    src/FinanceManagerApp/Panels/ExpenseTrendPanel.hpp
 
     src/FinanceManagerApp/Widgets/DateInput.hpp
 )
@@ -73,6 +74,7 @@ set(FINANCE_MANAGER_APP_SRC
 
     src/FinanceManagerApp/Panels/SavingsTrendPanel.cpp
     src/FinanceManagerApp/Panels/TotalSavingsTrendPanel.cpp
+    src/FinanceManagerApp/Panels/ExpenseTrendPanel.cpp
 
     src/FinanceManagerApp/Widgets/DateInput.cpp
 )
