@@ -9,7 +9,7 @@ namespace FinMgr {
 
     class AddSavingsEntryPopup : public App::Widgets::Popup {
     public:
-        explicit AddSavingsEntryPopup(Store& store);
+        explicit AddSavingsEntryPopup(App::AppData& appData, Store& store);
 
         ~AddSavingsEntryPopup() override = default;
 
@@ -17,7 +17,7 @@ namespace FinMgr {
 
     protected:
 
-        void drawContent() override;
+        void drawContent(Core::Window &window, Core::Context &context) override;
 
         void reset() override;
 

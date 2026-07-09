@@ -12,7 +12,7 @@ namespace FinMgr {
         ~ExpenseTrendPanel() override = default;
 
     protected:
-        void drawContent() override;
+        void drawContent(Core::Window&, Core::Context&) override;
 
     private:
         void createGraphData(Store& store);

@@ -9,13 +9,13 @@ namespace FinMgr {
 
     class CreateIncomePopup : public App::Widgets::Popup {
     public:
-        explicit CreateIncomePopup(Store& store);
+        explicit CreateIncomePopup(App::AppData& appData, Store& store);
 
         ~CreateIncomePopup() override = default;
 
     protected:
 
-        void drawContent() override;
+        void drawContent(Core::Window &window, Core::Context &context) override;
 
         void reset() override;
 

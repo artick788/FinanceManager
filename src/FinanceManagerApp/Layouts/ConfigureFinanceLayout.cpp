@@ -1,41 +1,33 @@
 #include "ConfigureFinanceLayout.hpp"
 
-#include "Popups/CreateIncomePopup.hpp"
-#include "Popups/CreateSavingsRecordPopup.hpp"
-#include "Popups/CreateMonthlyExpensePopup.hpp"
+#include "../Popups/CreateIncomePopup.hpp"
+#include "../Popups/CreateSavingsRecordPopup.hpp"
+#include "../Popups/CreateMonthlyExpensePopup.hpp"
+#include "../Utils.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
 
 namespace FinMgr {
 
     ConfigureFinanceLayout::ConfigureFinanceLayout(App::AppData& appData,Store &store):
+    Layout(FINMGR_APP_CONFIGURE_FINANCE_LAYOUT),
     m_AppData(appData),
     m_Store(store){
 
     }
 
-    SP<App::Node> ConfigureFinanceLayout::createLayout() const {
+    SP<App::Node> ConfigureFinanceLayout::getLayout() {
         using namespace Velyra::App;
 
         return App::createLayout(
             horizontalSplit(
-                createPanel({.name = "Items", .sizeRatio = 0.2f}),
-                createPanel({.name = "ItemDetail", .sizeRatio = 0.8f})
+                createPanel({.name = "Items", .drawFunction = bindDraw(this, &ConfigureFinanceLayout::drawItems), .sizeRatio = 0.2f }),
+                createPanel({.name = "ItemDetail", .drawFunction = bindDraw(this, &ConfigureFinanceLayout::drawItemDetail), .sizeRatio = 0.8f})
             )
         );
     }
 
-    void ConfigureFinanceLayout::draw() {
-        m_AppData.layoutEngine.beginPanel("Items");
-        drawItems();
-        m_AppData.layoutEngine.endPanel("Items");
-
-        m_AppData.layoutEngine.beginPanel("ItemDetail");
-        drawItemDetail();
-        m_AppData.layoutEngine.endPanel("ItemDetail");
-    }
-
-    void ConfigureFinanceLayout::drawItems() {
+    void ConfigureFinanceLayout::drawItems(Core::Window &window, Core::Context &context) {
         if (ImGui::BeginListBox("##Items", ImVec2(-FLT_MIN, -FLT_MIN))) {
             for (size_t i = 0; i < s_ItemTypes.size(); ++i) {
                 const bool is_selected = m_SelectedItemType == i;
@@ -50,7 +42,7 @@ namespace FinMgr {
         }
     }
 
-    void ConfigureFinanceLayout::drawItemDetail() const {
+    void ConfigureFinanceLayout::drawItemDetail(Core::Window &window, Core::Context &context) {
         switch (m_SelectedItemType) {
             case 0:
                 drawIncomeDetail();

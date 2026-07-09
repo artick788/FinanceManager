@@ -3,6 +3,7 @@
 #include "../Utils.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
+#include <VelyraCore/ImGui/ImGui.hpp>
 
 namespace FinMgr {
 
@@ -15,7 +16,7 @@ namespace FinMgr {
         createSavingsData(record);
     }
 
-    void SavingsTrendPanel::drawContent() {
+    void SavingsTrendPanel::drawContent(Core::Window&, Core::Context&) {
         drawDetails();
         drawGraph();
     }

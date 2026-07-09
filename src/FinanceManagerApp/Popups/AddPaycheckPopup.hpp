@@ -9,7 +9,7 @@ namespace FinMgr {
 
     class AddPaycheckPopup : public App::Widgets::Popup {
     public:
-        explicit AddPaycheckPopup(Store& store);
+        explicit AddPaycheckPopup(App::AppData& appData, Store& store);
 
         ~AddPaycheckPopup() override = default;
 
@@ -17,7 +17,7 @@ namespace FinMgr {
 
     protected:
 
-        void drawContent() override;
+        void drawContent(Core::Window &window, Core::Context &context) override;
 
         void reset() override;
 

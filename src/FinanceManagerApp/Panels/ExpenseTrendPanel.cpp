@@ -3,6 +3,7 @@
 #include "../Utils.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
+#include <VelyraCore/ImGui/ImGui.hpp>
 
 namespace FinMgr {
     ExpenseTrendPanel::ExpenseTrendPanel(App::AppData &appData, Store &store):
@@ -11,7 +12,7 @@ namespace FinMgr {
         createGraphData(store);
     }
 
-    void ExpenseTrendPanel::drawContent() {
+    void ExpenseTrendPanel::drawContent(Core::Window&, Core::Context&) {
         drawDetails();
         drawGraph();
     }

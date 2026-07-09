@@ -1,13 +1,14 @@
 #include "AddPaycheckPopup.hpp"
 
 #include "../Widgets/DateInput.hpp"
+#include "../Utils.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
 
 namespace FinMgr {
 
-    AddPaycheckPopup::AddPaycheckPopup(Store& store):
-    Popup("Add Paycheck"),
+    AddPaycheckPopup::AddPaycheckPopup(App::AppData& appData, Store& store):
+    Popup(appData, "Add Paycheck", FINMGR_APP_POPUP_ADD_PAYCHECK),
     m_Store(store) {
 
     }
@@ -16,7 +17,7 @@ namespace FinMgr {
         m_WageName = wageName;
     }
 
-    void AddPaycheckPopup::drawContent() {
+    void AddPaycheckPopup::drawContent(Core::Window&, Core::Context&) {
         Widgets::DateInput(m_InputDate, true);
         ImGui::InputDouble("Amount", &m_InputCheck, 0.01, 1.0, "%.2f");
         ImGui::InputDouble("Extra", &m_InputExtra, 0.01, 1.0, "%.2f");

@@ -1,14 +1,15 @@
 #include "OverviewLayout.hpp"
 
-#include "Utils.hpp"
+#include "../Utils.hpp"
 
-#include "Popups/AddPaycheckPopup.hpp"
+#include "../Popups/AddPaycheckPopup.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
 
 namespace FinMgr {
 
     OverviewLayout::OverviewLayout(App::AppData& appData, Store& store) :
+    Layout(FINMGR_APP_OVERVIEW_LAYOUT),
     m_AppData(appData),
     m_Store(store),
     m_IncomeOverview(appData, store),
@@ -17,35 +18,21 @@ namespace FinMgr {
 
     }
 
-    SP<App::Node> OverviewLayout::createLayout() const {
+    SP<App::Node> OverviewLayout::getLayout() {
         using namespace Velyra::App;
 
         return App::createLayout(
             horizontalSplit(
                 verticalSplit(
-                    createPanel({.name = "Main", .sizeRatio = 0.4f}),
-                    createPanel({.name = "Statistics", .sizeRatio = 0.6f})
+                    createPanel({.name = "Main", .drawFunction = bindDraw(this, &OverviewLayout::drawMain), .sizeRatio = 0.4f}),
+                    createPanel({.name = "Statistics", .drawFunction = bindDraw(this, &OverviewLayout::drawStatistics), .sizeRatio = 0.6f})
                 ),
-                createPanel({.name = "Detail", .sizeRatio = 0.7f})
+                createPanel({.name = "Detail", .drawFunction = bindDraw(this, &OverviewLayout::drawDetail), .sizeRatio = 0.7f})
             )
         );
     }
 
-    void OverviewLayout::draw() {
-        m_AppData.layoutEngine.beginPanel("Main");
-        drawMain();
-        m_AppData.layoutEngine.endPanel("Main");
-
-        m_AppData.layoutEngine.beginPanel("Statistics");
-        drawStatistics();
-        m_AppData.layoutEngine.endPanel("Statistics");
-
-        m_AppData.layoutEngine.beginPanel("Detail");
-        drawDetail();
-        m_AppData.layoutEngine.endPanel("Detail");
-    }
-
-    void OverviewLayout::drawMain() {
+    void OverviewLayout::drawMain(Core::Window& window, Core::Context& context) {
         if (ImGui::BeginListBox("##ItemsMain", ImVec2(-FLT_MIN, -FLT_MIN))) {
             for (size_t i = 0; i < s_ItemTypes.size(); ++i) {
                 const bool is_selected = m_SelectedItemType == i;
@@ -60,7 +47,7 @@ namespace FinMgr {
         }
     }
 
-    void OverviewLayout::drawStatistics() {
+    void OverviewLayout::drawStatistics(Core::Window& window, Core::Context& context) {
         switch (m_SelectedItemType) {
             case 0:
                 m_IncomeOverview.drawStatistics();
@@ -77,7 +64,7 @@ namespace FinMgr {
         }
     }
 
-    void OverviewLayout::drawDetail() {
+    void OverviewLayout::drawDetail(Core::Window& window, Core::Context& context) {
         switch (m_SelectedItemType) {
             case 0:
                 m_IncomeOverview.drawDetail();

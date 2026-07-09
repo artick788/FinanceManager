@@ -9,13 +9,13 @@ namespace FinMgr {
 
     class CreateSavingsRecordPopup : public App::Widgets::Popup {
     public:
-        explicit CreateSavingsRecordPopup(Store& store);
+        explicit CreateSavingsRecordPopup(App::AppData& app_data, Store& store);
 
         ~CreateSavingsRecordPopup() override = default;
 
     protected:
 
-        void drawContent() override;
+        void drawContent(Core::Window &window, Core::Context &context) override;
 
         void reset() override;
 

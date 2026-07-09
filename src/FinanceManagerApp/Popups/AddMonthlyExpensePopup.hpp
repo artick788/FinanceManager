@@ -9,13 +9,13 @@ namespace FinMgr {
 
     class AddMonthlyExpensePopup : public App::Widgets::Popup {
     public:
-        explicit AddMonthlyExpensePopup(Store& store);
+        explicit AddMonthlyExpensePopup(App::AppData& appData, Store& store);
 
         ~AddMonthlyExpensePopup() override = default;
 
     protected:
 
-        void drawContent() override;
+        void drawContent(Core::Window &window, Core::Context &context) override;
 
         void reset() override;
 

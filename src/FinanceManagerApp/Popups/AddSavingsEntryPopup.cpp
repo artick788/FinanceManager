@@ -1,13 +1,14 @@
 #include "AddSavingsEntryPopup.hpp"
 
 #include "../Widgets/DateInput.hpp"
+#include "../Utils.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
 
 namespace FinMgr {
 
-    AddSavingsEntryPopup::AddSavingsEntryPopup(Store& store):
-    Popup("Add Savings Entry"),
+    AddSavingsEntryPopup::AddSavingsEntryPopup(App::AppData& appData, Store& store):
+    Popup(appData, "Add Savings Entry", FINMGR_APP_POPUP_ADD_SAVINGS_ENTRY),
     m_Store(store) {
 
     }
@@ -18,7 +19,7 @@ namespace FinMgr {
         m_InputAmount = record.defaultTransactionAmount;
     }
 
-    void AddSavingsEntryPopup::drawContent() {
+    void AddSavingsEntryPopup::drawContent(Core::Window&, Core::Context&) {
         Widgets::DateInput(m_InputDate, true);
         ImGui::InputDouble("Amount", &m_InputAmount, 0.01, 0.0, "%.2f");
         ImGui::InputDouble("Current State", &m_InputCurrentState, 0.01, 0.0, "%.2f");

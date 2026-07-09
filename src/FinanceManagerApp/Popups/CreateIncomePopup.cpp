@@ -1,16 +1,19 @@
 #include "CreateIncomePopup.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
+#include <VelyraCore/ImGui/ImGui.hpp>
+
+#include "../Utils.hpp"
 
 namespace FinMgr {
 
-    CreateIncomePopup::CreateIncomePopup(Store& store):
-    Popup("Add Income"),
+    CreateIncomePopup::CreateIncomePopup(App::AppData& appData, Store& store):
+    Popup(appData, "Add Income", FINMGR_APP_POPUP_CREATE_INCOME),
     m_Store(store) {
 
     }
 
-    void CreateIncomePopup::drawContent() {
+    void CreateIncomePopup::drawContent(Core::Window&, Core::Context&) {
         ImGui::InputTextWithHint("##WageName", "Enter wage name", &m_WageName);
 
         ImGui::PushStyleColor(ImGuiCol_Button, App::Styles::ColorGreen);

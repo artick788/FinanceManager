@@ -8,8 +8,11 @@ int main(const int argc, const char* argv[]) {
     try {
         App::ApplicationDesc desc;
         desc.applicationName = "FinanceManager";
+        desc.settingsEnableSave = true;
+        desc.useImPlot = true;
+        desc.saveImGuiWindowData = false; // We don't want imgui.ini everywhere
         App::Application app(desc, args);
-        app.pushLayer<FinanceManagerLayer>();
+        app.createAppLayer<FinanceManagerLayer>();
         app.run();
 
     } catch (const std::exception& e) {

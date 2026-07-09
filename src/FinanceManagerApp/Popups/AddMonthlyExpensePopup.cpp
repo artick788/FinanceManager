@@ -3,15 +3,16 @@
 #include <VelyraAppFramework/Styles.hpp>
 
 #include "../Widgets/DateInput.hpp"
+#include "../Utils.hpp"
 
 namespace FinMgr {
 
-    AddMonthlyExpensePopup::AddMonthlyExpensePopup(Store& store) :
-    Popup("Add Monthly Expense"),
+    AddMonthlyExpensePopup::AddMonthlyExpensePopup(App::AppData& appData, Store& store) :
+    Popup(appData, "Add Monthly Expense", FINMGR_APP_POPUP_ADD_MONTHLY_EXPENSE),
     m_Store(store) {
     }
 
-    void AddMonthlyExpensePopup::drawContent() {
+    void AddMonthlyExpensePopup::drawContent(Core::Window &window, Core::Context &context) {
         drawMonthlyExpenseSelector();
         drawAddAEntry();
         drawButtons();

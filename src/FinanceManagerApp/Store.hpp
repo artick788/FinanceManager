@@ -4,13 +4,6 @@
 #include <FinanceManager/Savings.hpp>
 #include <FinanceManager/MonthlyExpenses.hpp>
 
-#include <VelyraUtils/VelyraEnum.hpp>
-
-VL_ENUM(AppState, int,
-    Overview = 0,
-    ConfigureFinance = 1
-);
-
 namespace FinMgr {
 
     using namespace Velyra;
@@ -27,7 +20,6 @@ namespace FinMgr {
         SavingsManager savingsManager;
         MonthlyExpensesManager monthlyExpensesManager;
 
-        AppState state = Overview;
 
         SP<CreateIncomePopup> addIncomePopup;
         SP<AddPaycheckPopup> addPaycheckPopup;

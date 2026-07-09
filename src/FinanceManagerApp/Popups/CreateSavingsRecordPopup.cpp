@@ -1,16 +1,19 @@
 #include "CreateSavingsRecordPopup.hpp"
 
 #include <VelyraAppFramework/Styles.hpp>
+#include <VelyraCore/ImGui/ImGui.hpp>
+
+#include "../Utils.hpp"
 
 namespace FinMgr {
 
-    CreateSavingsRecordPopup::CreateSavingsRecordPopup(Store& store):
-    Popup("Create Savings Record"),
+    CreateSavingsRecordPopup::CreateSavingsRecordPopup(App::AppData& appData, Store& store):
+    Popup(appData, "Create Savings Record", FINMGR_APP_POPUP_CREATE_SAVINGS_RECORD),
     m_Store(store) {
 
     }
 
-    void CreateSavingsRecordPopup::drawContent() {
+    void CreateSavingsRecordPopup::drawContent(Core::Window&, Core::Context&) {
         ImGui::InputTextWithHint("##RecordName", "Enter record name", &m_RecordName);
         ImGui::InputDouble("Default Transaction Amount", &m_InputDefaultTransactionAmount, 0.01, 0.0, "%.2f");
         ImGui::InputDouble("Initial Amount", &m_InputInitialAmount, 0.01, 0.0, "%.2f");

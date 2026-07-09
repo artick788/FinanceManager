@@ -34,12 +34,13 @@ target_include_directories(FinanceManager PUBLIC include)
 set(FINANCE_MANAGER_APP_HEADERS
     src/FinanceManagerApp/FinanceManagerLayer.hpp
     src/FinanceManagerApp/Store.hpp
-    src/FinanceManagerApp/ConfigureFinanceLayout.hpp
-    src/FinanceManagerApp/OverviewLayout.hpp
     src/FinanceManagerApp/Utils.hpp
     src/FinanceManagerApp/IncomeOverview.hpp
     src/FinanceManagerApp/SavingsOverview.hpp
     src/FinanceManagerApp/MonthlyExpenseOverview.hpp
+
+    src/FinanceManagerApp/Layouts/ConfigureFinanceLayout.hpp
+    src/FinanceManagerApp/Layouts/OverviewLayout.hpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.hpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.hpp
@@ -58,12 +59,13 @@ set(FINANCE_MANAGER_APP_HEADERS
 set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/FinanceManagerLayer.cpp
     src/FinanceManagerApp/Store.cpp
-    src/FinanceManagerApp/ConfigureFinanceLayout.cpp
-    src/FinanceManagerApp/OverviewLayout.cpp
     src/FinanceManagerApp/Utils.cpp
     src/FinanceManagerApp/IncomeOverview.cpp
     src/FinanceManagerApp/SavingsOverview.cpp
     src/FinanceManagerApp/MonthlyExpenseOverview.cpp
+
+    src/FinanceManagerApp/Layouts/ConfigureFinanceLayout.cpp
+    src/FinanceManagerApp/Layouts/OverviewLayout.cpp
 
     src/FinanceManagerApp/Popups/CreateIncomePopup.cpp
     src/FinanceManagerApp/Popups/AddPaycheckPopup.cpp
