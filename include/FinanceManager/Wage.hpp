@@ -36,6 +36,14 @@ namespace FinMgr {
 
         std::vector<WageEntry>& getEntries();
 
+        const std::vector<WageEntry>& getEntries() const;
+
+        /**
+         * @brief Removes the given entry, which must point into getEntries()
+         * @return false if the entry does not belong to this wage
+         */
+        bool removeEntry(const WageEntry* entry);
+
         WageStatistics calculateStatistics(const Date& min, const Date& max) const;
 
         VL_GENERATE_JSON_SERIALIZER(Wage, m_Name, m_Entries);
@@ -58,6 +66,8 @@ namespace FinMgr {
         Wage& getWage(const std::string& name);
 
         std::unordered_map<std::string, Wage>& getWages();
+
+        const std::unordered_map<std::string, Wage>& getWages() const;
 
         bool hasWage(const std::string& name) const;
 

@@ -24,6 +24,10 @@ namespace FinMgr {
         });
     }
 
+    bool MonthlyExpense::removeEntry(const MonthlyExpenseEntry* entry) {
+        return eraseElement(m_Entries, entry);
+    }
+
     void MonthlyExpense::addMissingEntries() {
         if (m_Entries.empty()) {
             return;

@@ -46,4 +46,11 @@ namespace FinMgr {
 
     Date getCurrentDate();
 
+    bool isLeapYear(int year);
+
+    /**
+     * @return The number of days in the given month (1-12) of the given year
+     */
+    int daysInMonth(int month, int year);
+
 }

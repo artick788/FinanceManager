@@ -1,4 +1,7 @@
 #include "src/FinanceManagerApp/FinanceManagerLayer.hpp"
+
+#include <VelyraAppFramework/Application.hpp>
+
 #include <iostream>
 
 int main(const int argc, const char* argv[]) {
@@ -8,14 +11,15 @@ int main(const int argc, const char* argv[]) {
     try {
         App::ApplicationDesc desc;
         desc.applicationName = "FinanceManager";
-        desc.settingsEnableSave = true;
         desc.useImPlot = true;
-        desc.saveImGuiWindowData = false; // We don't want imgui.ini everywhere
+        // Git sync is configured when the settings are created, so it is read from the settings file up front
+        desc.settings = createSettingsDesc(readGitSyncConfig(getSettingsFilePath()));
+
         App::Application app(desc, args);
         app.createAppLayer<FinanceManagerLayer>();
         app.run();
-
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception& e) {
         std::cerr << "Application failed to start: " << e.what() << std::endl;
         return EXIT_FAILURE;
     }

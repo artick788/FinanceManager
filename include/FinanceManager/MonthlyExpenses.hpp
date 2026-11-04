@@ -34,6 +34,12 @@ namespace FinMgr {
 
         const std::vector<MonthlyExpenseEntry>& getEntries() const { return m_Entries; }
 
+        /**
+         * @brief Removes the given entry, which must point into getEntries()
+         * @return false if the entry does not belong to this expense
+         */
+        bool removeEntry(const MonthlyExpenseEntry* entry);
+
         VL_GENERATE_JSON_SERIALIZER(MonthlyExpense, m_Name, defaultTransactionDay, defaultTransactionAmount, m_Entries);
 
     private:
@@ -59,9 +65,9 @@ namespace FinMgr {
 
         void checkData();
 
-         std::unordered_map<std::string, MonthlyExpense>& getMonthlyExpenses();
+        std::unordered_map<std::string, MonthlyExpense>& getMonthlyExpenses();
 
-         const std::unordered_map<std::string, MonthlyExpense>& getMonthlyExpenses() const;
+        const std::unordered_map<std::string, MonthlyExpense>& getMonthlyExpenses() const;
 
         VL_GENERATE_JSON_SERIALIZER(MonthlyExpensesManager, m_MonthlyExpenses);
 

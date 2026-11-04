@@ -29,6 +29,14 @@ namespace FinMgr {
         return m_Entries;
     }
 
+    const std::vector<WageEntry>& Wage::getEntries() const {
+        return m_Entries;
+    }
+
+    bool Wage::removeEntry(const WageEntry* entry) {
+        return eraseElement(m_Entries, entry);
+    }
+
     WageStatistics Wage::calculateStatistics(const Date& min, const Date& max) const {
         WageStatistics stats;
         for (const auto&[date, amount, extra] : m_Entries) {
@@ -54,6 +62,10 @@ namespace FinMgr {
     }
 
     std::unordered_map<std::string, Wage>& WageManager::getWages() {
+        return m_Wages;
+    }
+
+    const std::unordered_map<std::string, Wage>& WageManager::getWages() const {
         return m_Wages;
     }
 

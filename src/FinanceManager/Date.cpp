@@ -120,4 +120,18 @@ namespace FinMgr {
         return Date(now_tm->tm_mday, now_tm->tm_mon + 1, now_tm->tm_year + 1900);
     }
 
+    bool isLeapYear(const int year) {
+        return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    }
+
+    int daysInMonth(const int month, const int year) {
+        if (s_31.contains(month)) {
+            return 31;
+        }
+        if (s_30.contains(month)) {
+            return 30;
+        }
+        return isLeapYear(year) ? 29 : 28;
+    }
+
 }

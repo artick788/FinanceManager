@@ -49,6 +49,12 @@ namespace FinMgr {
 
         const std::vector<SavingEntry>& getEntries() const { return m_Entries; }
 
+        /**
+         * @brief Removes the given entry, which must point into getEntries()
+         * @return false if the entry does not belong to this record
+         */
+        bool removeEntry(const SavingEntry* entry);
+
         VL_GENERATE_JSON_SERIALIZER(SavingsRecord, m_Name, initialAmount, m_Entries, defaultTransactionAmount);
 
     private:
@@ -75,6 +81,8 @@ namespace FinMgr {
         SavingsRecord& getSavingsRecord(const std::string& name);
 
         std::unordered_map<std::string, SavingsRecord>& getSavingsRecords();
+
+        const std::unordered_map<std::string, SavingsRecord>& getSavingsRecords() const;
 
         bool hasSavingsRecord(const std::string& name) const;
 

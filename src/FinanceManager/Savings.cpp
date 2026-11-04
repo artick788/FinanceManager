@@ -24,6 +24,10 @@ namespace FinMgr {
         });
     }
 
+    bool SavingsRecord::removeEntry(const SavingEntry* entry) {
+        return eraseElement(m_Entries, entry);
+    }
+
     SavingsStatistics SavingsRecord::getMonthlySavedAmount(const Date &date) const {
         SavingsStatistics stats;
         stats.expectedAmount = initialAmount;
@@ -54,6 +58,10 @@ namespace FinMgr {
     }
 
     std::unordered_map<std::string, SavingsRecord>& SavingsManager::getSavingsRecords() {
+        return m_SavingsRecords;
+    }
+
+    const std::unordered_map<std::string, SavingsRecord>& SavingsManager::getSavingsRecords() const {
         return m_SavingsRecords;
     }
 
