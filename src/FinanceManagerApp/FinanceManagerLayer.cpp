@@ -81,7 +81,7 @@ namespace FinMgr {
             .menuPath = "File/Sync with git",
             .run = [this] { m_Persistence.syncNow(); },
             .shortcut = ImGuiMod_Ctrl | ImGuiMod_Shift | ImGuiKey_S,
-            .enabled = [this] { return m_Persistence.getGitSyncConfig().isActive() && !m_Persistence.isReadOnly(); },
+            .enabled = [this] { return m_Persistence.isGitSyncActive() && !m_Persistence.isReadOnly(); },
         });
         m_Commands.addSeparator("File");
         m_Commands.add({
@@ -182,14 +182,14 @@ namespace FinMgr {
             color = Theme::Negative;
         }
         else if (m_Persistence.hasUnsavedChanges()) {
-            text = m_Persistence.getGitSyncConfig().isActive() ? "Unsaved changes (Ctrl+S to sync)" : "Unsaved changes";
+            text = m_Persistence.isGitSyncActive() ? "Unsaved changes (Ctrl+S to sync)" : "Unsaved changes";
             color = Theme::Warning;
         }
         else {
             text = m_Persistence.getStatusMessage().empty() ? "All changes saved" : m_Persistence.getStatusMessage();
         }
-        if (m_Persistence.getGitSyncConfig().isActive()) {
-            text += "  |  git: " + m_Persistence.getGitSyncConfig().branch;
+        if (const GitSyncDesc gitSync = m_Persistence.getGitSync(); isGitSyncActive(gitSync)) {
+            text += "  |  git: " + gitSync.branch;
         }
         const float width = ImGui::CalcTextSize(text.c_str()).x + ImGui::GetStyle().ItemSpacing.x;
         const float available = ImGui::GetContentRegionAvail().x;

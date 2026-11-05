@@ -27,7 +27,7 @@ namespace FinMgr {
         Store& m_Store;
         Persistence& m_Persistence;
 
-        GitSyncConfig m_GitDraft;
+        GitSyncDesc m_GitDraft;
     };
 
 }

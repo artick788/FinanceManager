@@ -34,7 +34,7 @@ namespace FinMgr {
     }
 
     void SettingsPopup::reset() {
-        m_GitDraft = m_Persistence.getGitSyncConfig();
+        m_GitDraft = m_Persistence.getGitSync();
     }
 
     void SettingsPopup::drawDisplaySettings() {
@@ -59,11 +59,12 @@ namespace FinMgr {
         ImGui::SeparatorText("Sync with git");
         ImGui::PushTextWrapPos(0.0f);
         ImGui::TextDisabled("Your data is pushed to a git repository when saving and pulled when the app starts, so it "
-                            "stays the same on every PC. Changes made offline are merged on the next sync.");
+                            "stays the same on every PC. Changes made offline are merged on the next sync. This is stored "
+                            "in the \"GitSync\" object of the settings file, which is never synced itself.");
         ImGui::PopTextWrapPos();
 
-        ImGui::Checkbox("Enable git sync", &m_GitDraft.enabled);
-        ImGui::BeginDisabled(!m_GitDraft.enabled);
+        ImGui::Checkbox("Enable git sync", &m_GitDraft.enableGitSync);
+        ImGui::BeginDisabled(!m_GitDraft.enableGitSync);
         Ui::formLabel("Remote");
         ImGui::InputTextWithHint("##Remote", "git@github.com:you/settings.git", &m_GitDraft.remoteUrl);
         const std::string legacyRemote = m_Persistence.getLegacyRemoteUrl();
@@ -79,19 +80,17 @@ namespace FinMgr {
         ImGui::InputTextWithHint("##Branch", "main", &m_GitDraft.branch);
         ImGui::EndDisabled();
 
-        const GitSyncConfig& active = m_Persistence.getGitSyncConfig();
-        const bool changed = m_GitDraft.enabled != active.enabled || m_GitDraft.remoteUrl != active.remoteUrl || m_GitDraft.branch != active.branch;
+        const GitSyncDesc active = m_Persistence.getGitSync();
+        const bool changed = m_GitDraft.enableGitSync != active.enableGitSync || m_GitDraft.remoteUrl != active.remoteUrl || m_GitDraft.branch != active.branch;
 
         ImGui::BeginDisabled(!changed);
         if (ImGui::Button("Apply")) {
-            m_Persistence.setGitSyncConfig(m_GitDraft);
-            if (m_GitDraft.isActive()) {
-                m_Persistence.syncNow();
-            }
+            m_Persistence.setGitSync(m_GitDraft);
+            m_GitDraft = m_Persistence.getGitSync();
         }
         ImGui::EndDisabled();
         ImGui::SameLine();
-        ImGui::BeginDisabled(changed || !active.isActive());
+        ImGui::BeginDisabled(changed || !isGitSyncActive(active));
         if (ImGui::Button("Sync now")) {
             m_Persistence.syncNow();
         }

@@ -12,8 +12,9 @@ int main(const int argc, const char* argv[]) {
         App::ApplicationDesc desc;
         desc.applicationName = "FinanceManager";
         desc.useImPlot = true;
-        // Git sync is configured when the settings are created, so it is read from the settings file up front
-        desc.settings = createSettingsDesc(readGitSyncConfig(getSettingsFilePath()));
+        desc.settings.enableSave = true;
+        desc.settings.settingsFile = getSettingsFilePath();
+        // Git sync is configured in the "GitSync" object of the settings file, see File > Settings
 
         App::Application app(desc, args);
         app.createAppLayer<FinanceManagerLayer>();

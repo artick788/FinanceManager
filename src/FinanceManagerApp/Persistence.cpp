@@ -2,9 +2,6 @@
 
 #include <VelyraUtils/Clock/Clock.hpp>
 
-#include <fstream>
-#include <iostream>
-
 namespace FinMgr {
 
     namespace {
@@ -15,20 +12,31 @@ namespace FinMgr {
         constexpr Duration AUTO_SAVE_DELAY = 20s;
         constexpr Duration DIRTY_CHECK_INTERVAL = 500ms;
 
-        /**
-         * @brief Reads a setting as plain json. Utils::fromJson<nlohmann::json> recurses forever (json looks like a
-         *        map to it), so the json is wrapped in a type with its own fromJson.
-         */
-        struct RawJson {
-            nlohmann::json value;
-
-            void fromJson(const nlohmann::json& json) { value = json; }
-
-            nlohmann::json toJson() const { return value; }
+        // Settings of this app that are specific to this PC, or only kept as a backup of the old format
+        const std::vector<std::string> APP_LOCAL_KEYS = {
+            App::SettingsKeys::IMGUI_SETTINGS,
+            SettingKeys::UI,
+            SettingKeys::LEGACY_APP_SETTINGS,
+            SettingKeys::LEGACY_GIT_INFO,
+            SettingKeys::LEGACY_LOCAL_SETTINGS
         };
 
-        std::optional<nlohmann::json> readRaw(const App::Settings& settings, const std::string& key) {
-            nlohmann::json json = settings.getSetting<RawJson>(key).value;
+        /**
+         * @return true if a key was added
+         */
+        bool addAppLocalKeys(GitSyncDesc& gitSync) {
+            bool added = false;
+            for (const auto& key: APP_LOCAL_KEYS) {
+                if (std::ranges::find(gitSync.localKeys, key) == gitSync.localKeys.end()) {
+                    gitSync.localKeys.push_back(key);
+                    added = true;
+                }
+            }
+            return added;
+        }
+
+        std::optional<nlohmann::json> readJson(const App::Settings& settings, const std::string& key) {
+            nlohmann::json json = settings.getSetting<nlohmann::json>(key);
             if (json.is_null()) {
                 return std::nullopt;
             }
@@ -38,42 +46,12 @@ namespace FinMgr {
     }
 
     fs::path getSettingsFilePath() {
+        // Same as the default of the framework, which fills in an empty SettingsDesc::settingsFile with this path
         return App::getAppdataPath(APP_NAME) / (std::string("settings_") + APP_NAME + ".json");
     }
 
-    GitSyncConfig readGitSyncConfig(const fs::path& settingsFile) {
-        std::ifstream file(settingsFile);
-        if (!file.is_open()) {
-            return {};
-        }
-        const nlohmann::json json = nlohmann::json::parse(file, nullptr, false);
-        if (json.is_discarded() || !json.is_object() || !json.contains(SettingKeys::GIT_SYNC)) {
-            return {};
-        }
-        try {
-            return Utils::fromJson<GitSyncConfig>(json.at(SettingKeys::GIT_SYNC));
-        }
-        catch (const std::exception& e) {
-            std::cerr << "Ignoring invalid git sync config: " << e.what() << std::endl;
-            return {};
-        }
-    }
-
-    App::SettingsDesc createSettingsDesc(const GitSyncConfig& config) {
-        App::SettingsDesc desc;
-        desc.enableSave = true;
-        desc.settingsFile = getSettingsFilePath();
-        // Everything that is specific to this PC, or only kept as a backup of the old format, is never synced
-        desc.gitSync.localKeys = {
-            "WindowSettings", "ContextSettings", "ImGuiSettings",
-            SettingKeys::UI, SettingKeys::GIT_SYNC,
-            SettingKeys::LEGACY_APP_SETTINGS, SettingKeys::LEGACY_GIT_INFO, SettingKeys::LEGACY_LOCAL_SETTINGS
-        };
-        if (config.isActive()) {
-            desc.gitSync.remoteUrl = config.remoteUrl;
-            desc.gitSync.branch = config.branch.empty() ? "main" : config.branch;
-        }
-        return desc;
+    bool isGitSyncActive(const GitSyncDesc& gitSync) {
+        return gitSync.enableGitSync && !gitSync.remoteUrl.empty();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -85,7 +63,10 @@ namespace FinMgr {
     }
 
     void Persistence::load() {
-        m_GitSync = m_Settings.getSetting<GitSyncConfig>(SettingKeys::GIT_SYNC);
+        // The app keeps some settings per PC, also when git sync was configured by hand in the settings file
+        if (GitSyncDesc gitSync = getGitSync(); addAppLocalKeys(gitSync)) {
+            m_Settings.setGitSync(gitSync);
+        }
         m_Store.ui = m_Settings.getSetting<UiState>(SettingKeys::UI);
         loadData();
         if (m_Migrated) {
@@ -98,8 +79,8 @@ namespace FinMgr {
 
     void Persistence::loadData() {
         const FinanceDataLoadResult result = loadFinanceData(
-            readRaw(m_Settings, SettingKeys::STORE),
-            readRaw(m_Settings, SettingKeys::LEGACY_APP_SETTINGS));
+            readJson(m_Settings, SettingKeys::STORE),
+            readJson(m_Settings, SettingKeys::LEGACY_APP_SETTINGS));
 
         m_LoadError = result.error;
         m_Migrated = result.source == FinanceDataSource::Legacy && result.error.empty();
@@ -118,7 +99,6 @@ namespace FinMgr {
 
     void Persistence::commit() {
         m_Settings.setSetting(SettingKeys::UI, m_Store.ui);
-        m_Settings.setSetting(SettingKeys::GIT_SYNC, m_GitSync);
         if (isReadOnly()) {
             return;
         }
@@ -131,13 +111,13 @@ namespace FinMgr {
         if (!isReadOnly()) {
             markSaved();
         }
-        m_StatusMessage = m_GitSync.isActive() ? "Saved and synced" : "Saved";
+        m_StatusMessage = isGitSyncActive() ? "Saved and synced" : "Saved";
     }
 
     bool Persistence::syncNow() {
         commit();
         if (!m_Settings.sync()) {
-            m_StatusMessage = m_GitSync.isActive() ? "Could not reach the git remote, changes are pushed on the next sync" : "Git sync is disabled";
+            m_StatusMessage = isGitSyncActive() ? "Could not reach the git remote, changes are pushed on the next sync" : "Git sync is disabled";
             return false;
         }
         // The merge may have brought in changes from another PC
@@ -153,20 +133,26 @@ namespace FinMgr {
             m_Dirty = !isReadOnly() && m_Store.data.toJson() != m_SavedData;
         }
         m_DirtyFor = m_Dirty ? m_DirtyFor + deltaTime : Duration{};
-        if (m_DirtyFor >= AUTO_SAVE_DELAY && !m_GitSync.isActive()) {
+        if (m_DirtyFor >= AUTO_SAVE_DELAY && !isGitSyncActive()) {
             save();
             m_StatusMessage = "Saved automatically";
         }
     }
 
-    void Persistence::setGitSyncConfig(const GitSyncConfig& config) {
-        m_GitSync = config;
-        m_Settings.setGitSync(createSettingsDesc(config).gitSync);
+    void Persistence::setGitSync(GitSyncDesc gitSync) {
+        addAppLocalKeys(gitSync);
         commit();
+        m_Settings.setGitSync(gitSync);
+        if (FinMgr::isGitSyncActive(gitSync)) {
+            syncNow();
+        }
+        else {
+            m_StatusMessage = "Git sync disabled";
+        }
     }
 
     std::string Persistence::getLegacyRemoteUrl() const {
-        const std::optional<nlohmann::json> legacy = readRaw(m_Settings, SettingKeys::LEGACY_GIT_INFO);
+        const std::optional<nlohmann::json> legacy = readJson(m_Settings, SettingKeys::LEGACY_GIT_INFO);
         if (legacy.has_value() && legacy->is_object() && legacy->contains("sshString") && legacy->at("sshString").is_string()) {
             return legacy->at("sshString").get<std::string>();
         }
@@ -177,7 +163,6 @@ namespace FinMgr {
         m_SavedData = m_Store.data.toJson();
         m_Dirty = false;
         m_DirtyFor = Duration{};
-        m_LastSave = getTime();
     }
 
 }
