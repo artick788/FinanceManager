@@ -59,7 +59,6 @@ set(FINANCE_MANAGER_APP_SRC
     src/FinanceManagerApp/FinanceLayout.cpp
     src/FinanceManagerApp/Persistence.cpp
     src/FinanceManagerApp/Commands.cpp
-    src/FinanceManagerApp/Theme.cpp
     src/FinanceManagerApp/Ui.cpp
 
     src/FinanceManagerApp/Pages/DashboardPage.cpp

@@ -23,7 +23,7 @@ namespace FinMgr {
     FinanceManagerLayer::~FinanceManagerLayer() = default;
 
     void FinanceManagerLayer::onAttach() {
-        Theme::apply();
+        Theme::Dusk::apply(m_AppData.getContext());
         m_Persistence.load();
         attachPopups();
         registerCommands();

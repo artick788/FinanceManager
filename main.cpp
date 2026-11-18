@@ -14,8 +14,6 @@ int main(const int argc, const char* argv[]) {
         desc.useImPlot = true;
         desc.settings.enableSave = true;
         desc.settings.settingsFile = getSettingsFilePath();
-        // Git sync is configured in the "GitSync" object of the settings file, see File > Settings
-
         App::Application app(desc, args);
         app.createAppLayer<FinanceManagerLayer>();
         app.run();
